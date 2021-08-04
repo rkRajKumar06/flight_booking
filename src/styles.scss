@@ -1,5 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
-.button{
+.searchButton{
     background-color: green;
     color: white;
+}
+
+input{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+select{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.inputElements{
+  max-width: 100%;
+  margin: 10px;
+  background: #A0C5E8;
+  padding: 10px;
 }

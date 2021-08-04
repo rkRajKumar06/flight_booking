@@ -17,6 +17,8 @@ export class SearchComponent implements OnInit {
     "Cochin"
   ];
 
+  tripType: string = "oneway";
+
   constructor() { }
 
   ngOnInit(): void {

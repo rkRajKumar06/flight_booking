@@ -1,21 +1,63 @@
 <h2>Search</h2>
-<input type="radio" id="oneway" name="tripType">
-<label for="oneway">One Way</label>
-<input type="radio" id="roundTrip" name="tripType">
-<label for="roundTrip">Round Trip</label><br><br>
-<label for="from">From :</label>
-<select id="from">
-    <option *ngFor="let place of places">{{place}}</option>
-</select>
-<label for="to">To :</label>
-<select id="to" >
-    <option *ngFor="let place of places">{{place}}</option>
-</select>
-<label for="depart">Depart :</label>
-<input id="depart" type="date">
-<label for="return">Return :</label>
-<input id="return" type="date"><button class="button">Search</button>
+<div class="inputElements">
+    <input type="radio" id="oneway" name="tripType" value="oneway">
+    <label for="oneway">One Way</label>
+    <input type="radio" id="roundTrip" name="tripType" value="roundtrip">
+    <label for="roundTrip">Round Trip</label><br><br>
+    <label for="from">From :</label>
+    <select id="from">
+        <option *ngFor="let place of places">{{place}}</option>
+    </select>
+    <label for="to">To :</label>
+    <select id="to" >
+        <option *ngFor="let place of places">{{place}}</option>
+    </select>
+    <label for="depart">Depart :</label>
+    <input id="depart" type="date">
+    <label for="return">Return :</label>
+    <input id="return" type="date"><button class="searchButton" >Search</button>
+</div>
 <br><br>
 <hr>
-
-
+<div style="display: flex;padding: 30px;justify-content: space-evenly;">
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th><label>Departure</label></th>
+                    <th><label>Duration</label></th>
+                    <th><label>Arrival</label></th>
+                    <th><label>Price</label></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><label></label></td>
+                    <td><label></label></td>
+                    <td><label></label></td>
+                    <td><label></label></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th><label>Departure</label></th>
+                    <th><label>Duration</label></th>
+                    <th><label>Arrival</label></th>
+                    <th><label>Price</label></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><label></label></td>
+                    <td><label></label></td>
+                    <td><label></label></td>
+                    <td><label></label></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
