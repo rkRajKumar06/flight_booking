@@ -1,0 +1,8 @@
+<ul>
+    <li *ngIf="user" [routerLink]="['/', 'search']" routerLinkActive="active">Search</li>
+    <li *ngIf="user" [routerLink]="['/', 'manageBooking']" routerLinkActive="active">Manage Bookings</li>
+    <li *ngIf="user" [routerLink]="['/', 'bookingHistory']" routerLinkActive="active">History</li>
+    <li *ngIf="admin" [routerLink]="['/', 'airline']" routerLinkActive="active">Manage Airline</li>
+    <li *ngIf="admin" [routerLink]="['/', 'manageSchedule']" routerLinkActive="active">Manage Schedule</li>
+</ul>
+<hr>

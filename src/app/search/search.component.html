@@ -1,8 +1,9 @@
+<app-header></app-header>
 <h2>Search</h2>
 <div class="inputElements">
-    <input type="radio" id="oneway" name="tripType" value="oneway">
+    <input type="radio" id="oneway" name="tripType" [value]="tripType">
     <label for="oneway">One Way</label>
-    <input type="radio" id="roundTrip" name="tripType" value="roundtrip">
+    <input type="radio" id="roundTrip" name="tripType" [value]="tripType">
     <label for="roundTrip">Round Trip</label><br><br>
     <label for="from">From :</label>
     <select id="from">
@@ -15,7 +16,9 @@
     <label for="depart">Depart :</label>
     <input id="depart" type="date">
     <label for="return">Return :</label>
-    <input id="return" type="date"><button class="searchButton" >Search</button>
+    <input id="return" type="date"><br>
+
+    <button style="align-self: center;" class="searchButton" >Search</button>
 </div>
 <br><br>
 <hr>

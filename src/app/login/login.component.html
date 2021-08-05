@@ -1,0 +1,15 @@
+<h2>Login</h2>
+<div class="inputElements" style="border: 1px solid black" >
+    <form [formGroup]="myForm" (ngSubmit)="verifyLogin()">
+    <label for="username">Username :</label>
+    <input id="username" type="text" formControlName="username"><br><br>
+    <label for="password">Password :</label>
+    <input id="password" type="password" formControlName="password"><br><br>
+    <label for="userRole">Role :</label>
+    <select id="userRole" formControlName="role">
+        <option value="user">User</option>
+        <option value="admin">Admin</option>
+    </select><br><br>
+    <button class="searchButton" type="submit">Login</button>
+</form>
+</div>
