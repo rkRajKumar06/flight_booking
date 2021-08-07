@@ -1,1 +1,26 @@
-<p>flight-schedule works!</p>
+<app-header></app-header>
+<h2>Flight Schedule</h2>
+<div class="inputElements">
+    <label for="scheduleFlightNo">Flight No :</label>
+    <input id="scheduleFlightNo" type="text"><br><br>
+    <label for="scheduleFrom">From :</label>
+    <select id="scheduleFrom">
+        <option *ngFor="let place of places">{{place}}</option>
+    </select>
+    <label for="scheduleTo">To :</label>
+    <select id="scheduleTo">
+        <option *ngFor="let place of places">{{place}}</option>
+    </select>
+    <label for="scheduleStartTime">Start Time :</label>
+    <input id="scheduleStartTime" type="time">
+    <label for="scheduleEndTime">End Time :</label>
+    <input id="scheduleEndTime" type="time"><br><br>
+    <label for="scheduleDay">Day :</label>
+    <input id="scheduleDay" type="text">
+    <br><br>
+    <label for="scheduleCost">Cost :</label>
+    <input id="scheduleCost" type="number"><br><br>
+    <label for="scheduleFoodType">Food Type :</label>
+    <input id="scheduleFoodType" type="text"><br><br>
+    <button class="searchButton" >Search</button>
+</div>

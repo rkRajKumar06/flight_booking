@@ -1,8 +1,28 @@
-<ul>
-    <li *ngIf="user" [routerLink]="['/', 'search']" routerLinkActive="active">Search</li>
-    <li *ngIf="user" [routerLink]="['/', 'manageBooking']" routerLinkActive="active">Manage Bookings</li>
-    <li *ngIf="user" [routerLink]="['/', 'bookingHistory']" routerLinkActive="active">History</li>
-    <li *ngIf="admin" [routerLink]="['/', 'airline']" routerLinkActive="active">Manage Airline</li>
-    <li *ngIf="admin" [routerLink]="['/', 'manageSchedule']" routerLinkActive="active">Manage Schedule</li>
-</ul>
-<hr>
+<header class="p-3 text-white" style="background-color: royalblue;">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a *ngIf="user" [routerLink]="['/', 'search']" routerLinkActive="activeElement" class="nav-link px-2 text-white">Search</a></li>
+          <li><a *ngIf="user" [routerLink]="['/', 'manageBooking']" routerLinkActive="activeElement" class="nav-link px-2 text-white">Manage-Bookings</a></li>
+          <li><a *ngIf="user" [routerLink]="['/', 'bookingHistory']" routerLinkActive="activeElement" class="nav-link px-2 text-white">History</a></li>
+          <li><a *ngIf="admin" [routerLink]="['/', 'airline']" routerLinkActive="activeElement" class="nav-link px-2 text-white">Manage Airline</a></li>
+          <li><a *ngIf="admin" [routerLink]="['/', 'manageSchedule']" routerLinkActive="activeElement" class="nav-link px-2 text-white">Manage Schedule</a></li>
+        </ul>
+
+        <div class="text-end">
+          <button type="button" class="btn btn-outline-light me-2" *ngIf="!(user || admin)" routerLinkActive="activeElement" [routerLink]="['/', 'login']">Login</button>
+          <button type="button" class="btn btn-outline-light me-2" *ngIf="user || admin" routerLinkActive="activeElement" (click)="logout()">Logout</button>
+        </div>
+      </div>
+    </div>
+</header>
+<!-- <ul>
+    <li *ngIf="user" [routerLink]="['/', 'search']" routerLinkActive="activeElement">Search</li>
+    <li *ngIf="user" [routerLink]="['/', 'manageBooking']" routerLinkActive="activeElement">Manage Bookings</li>
+    <li *ngIf="user" [routerLink]="['/', 'bookingHistory']" routerLinkActive="activeElement">History</li>
+    <li *ngIf="admin" [routerLink]="['/', 'airline']" routerLinkActive="activeElement">Manage Airline</li>
+    <li *ngIf="admin" [routerLink]="['/', 'manageSchedule']" routerLinkActive="activeElement">Manage Schedule</li>
+    <li *ngIf="!(user || admin)" routerLinkActive="activeElement" [routerLink]="['/', 'login']">Login</li>
+    <li *ngIf="user || admin" routerLinkActive="activeElement" (click)="logout()">Logout</li>
+</ul> -->

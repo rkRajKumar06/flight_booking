@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PLACES } from '../app.component';
 
 @Component({
   selector: 'app-flight-schedule',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./flight-schedule.component.scss']
 })
 export class FlightScheduleComponent implements OnInit {
+
+  places: string[] = PLACES;
 
   constructor() { }
 

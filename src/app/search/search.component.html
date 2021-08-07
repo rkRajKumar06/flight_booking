@@ -1,6 +1,57 @@
 <app-header></app-header>
-<h2>Search</h2>
-<div class="inputElements">
+<div class="container">
+    <h2 class="text-center">Search</h2>
+    <form [formGroup]="searchForm" (ngSubmit)="searchFlights()">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="tripType">Trip Type</label>
+                <select id="tripType" class="form-control" formControlName="tripType">
+                    <option value="">--Select--</option>
+                    <option value="oneway">One Way</option>
+                    <option value="round">Round</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="from">From</label>
+                <select id="from" class="form-control" formControlName="fromPlace">
+                    <option>--Select--</option>
+                    <option *ngFor="let place of places">{{place}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="to">To</label>
+                <select id="to" class="form-control" formControlName="toPlace">
+                    <option>--Select--</option>
+                    <option *ngFor="let place of places">{{place}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="to">Departure</label>
+                <input id="return" class="form-control" type="date" formControlName="departureDate">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="to">Return</label>
+                <input id="return" class="form-control" type="date" formControlName="returnDate">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group text-center">
+                <input class="btn" style="background-color: green;color: white;" type="submit" value="Search">
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+<!-- <div class="inputElements">
     <input type="radio" id="oneway" name="tripType" [value]="tripType">
     <label for="oneway">One Way</label>
     <input type="radio" id="roundTrip" name="tripType" [value]="tripType">
@@ -10,7 +61,8 @@
         <option *ngFor="let place of places">{{place}}</option>
     </select>
     <label for="to">To :</label>
-    <select id="to" >
+    <select id="to">
+
         <option *ngFor="let place of places">{{place}}</option>
     </select>
     <label for="depart">Depart :</label>
@@ -18,47 +70,51 @@
     <label for="return">Return :</label>
     <input id="return" type="date"><br>
 
-    <button style="align-self: center;" class="searchButton" >Search</button>
-</div>
+    <button style="align-self: center;" class="searchButton">Search</button>
+</div> -->
 <br><br>
 <hr>
-<div style="display: flex;padding: 30px;justify-content: space-evenly;">
-    <div>
-        <table>
+<div class="container" style="display: flex;padding: 10px;justify-content: space-evenly;Overflow-y: scroll;height: 300px;">
+    <div style="width: 45%;">
+        <table class="table table-striped" style="width: 100%;">
             <thead>
                 <tr>
-                    <th><label>Departure</label></th>
-                    <th><label>Duration</label></th>
-                    <th><label>Arrival</label></th>
-                    <th><label>Price</label></th>
+                    <th>S.No</th>
+                    <th>Departure</th>
+                    <th>Duration</th>
+                    <th>Arrival</th>
+                    <th>Price</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><label></label></td>
-                    <td><label></label></td>
-                    <td><label></label></td>
-                    <td><label></label></td>
+                <tr *ngFor="let result of oneWayList;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{result.departure}}</td>
+                    <td>{{result.flightNo}}</td>
+                    <td>{{result.arrival}}</td>
+                    <td>{{result.price}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div>
-        <table>
+    <div style="width: 45%;">
+        <table class="table table-striped" style="width: 100%;">
             <thead>
                 <tr>
-                    <th><label>Departure</label></th>
-                    <th><label>Duration</label></th>
-                    <th><label>Arrival</label></th>
-                    <th><label>Price</label></th>
+                    <th>S.No</th>
+                    <th>Departure</th>
+                    <th>Duration</th>
+                    <th>Arrival</th>
+                    <th>Price</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><label></label></td>
-                    <td><label></label></td>
-                    <td><label></label></td>
-                    <td><label></label></td>
+                <tr *ngFor="let result of roundList;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{result.departure}}</td>
+                    <td>{{result.flightNo}}</td>
+                    <td>{{result.arrival}}</td>
+                    <td>{{result.price}}</td>
                 </tr>
             </tbody>
         </table>

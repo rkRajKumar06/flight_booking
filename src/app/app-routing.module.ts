@@ -19,7 +19,8 @@ const routes: Routes = [
   {path:"header", component: HeaderComponent},
   {path:"login", component: LoginComponent},
   {path:"airline", component: AirlineComponent, canActivate:[AdminGuard]},
-  {path:"manageSchedule", component: FlightScheduleComponent, canActivate:[AdminGuard]}
+  {path:"manageSchedule", component: FlightScheduleComponent, canActivate:[AdminGuard]},
+  {path:"**", redirectTo: "login", pathMatch:"full"}
 ];
 
 @NgModule({
