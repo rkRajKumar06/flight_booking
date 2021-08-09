@@ -1,0 +1,269 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "name": "user",
+      "password": "user",
+      "role": "user",
+      "email": "user@gmail.com"
+    },
+    {
+      "id": 2,
+      "name": "admin",
+      "password": "admin",
+      "role": "admin"
+    },
+    {
+      "id": 3,
+      "name": "test",
+      "email": "test@gmail.com",
+      "role": "user",
+      "password": "test"
+    },
+    {
+      "id": 4,
+      "name": "test1",
+      "email": "test1@gmail.com",
+      "role": "user",
+      "password": "test1"
+    }
+  ],
+  "bookingDetails": [
+    {
+      "id": 1,
+      "pnr": "PNR124789",
+      "flightNo": "FL78456",
+      "noOfPersons": 2,
+      "amount": 8000,
+      "departure": "01:30",
+      "arrival": "04:30",
+      "email": "user@gmail.com",
+      "fromPlace": "Chennai",
+      "toPlace": "Mumbai",
+      "active": 1
+    },
+    {
+      "id": 2,
+      "pnr": "PNR125789",
+      "flightNo": "FL48456",
+      "noOfPersons": 1,
+      "amount": 4000,
+      "departure": "01:30",
+      "arrival": "04:30",
+      "email": "user@gmail.com",
+      "fromPlace": "Delhi",
+      "toPlace": "Mumbai",
+      "active": 1
+    },
+    {
+      "id": 3,
+      "pnr": "PNR78955",
+      "flightNo": "FL64514",
+      "noOfPersons": 1,
+      "amount": 1200,
+      "departure": "01:30",
+      "arrival": "04:30",
+      "email": "user@gmail.com",
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "active": 0
+    },
+    {
+      "id": 4,
+      "pnr": "PNR78955",
+      "flightNo": "FL64514",
+      "noOfPersons": 1,
+      "amount": 3000,
+      "departure": "01:30",
+      "arrival": "04:30",
+      "email": "user@gmail.com",
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "active": 0
+    },
+    {
+      "id": 5,
+      "pnr": "PNR78955",
+      "flightNo": "FL64514",
+      "noOfPersons": 0,
+      "amount": 0,
+      "departure": "01:30",
+      "arrival": "04:30",
+      "email": "test1@gmail.com",
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "active": 0
+    }
+  ],
+  "flightDetails": [
+    {
+      "id": 1,
+      "airlines": "SpiceJet",
+      "flightNo": "FL97643",
+      "noOfSeats": 150,
+      "blocked": 0
+    },
+    {
+      "id": 2,
+      "airlines": "AirIndia",
+      "flightNo": "FL12487",
+      "noOfSeats": 150,
+      "blocked": 0
+    },
+    {
+      "id": 3,
+      "airlines": "JetAirways",
+      "flightNo": "FL64578",
+      "noOfSeats": "140",
+      "blocked": 0
+    },
+    {
+      "id": 4,
+      "airlines": "AirAsia",
+      "flightNo": "FL64514",
+      "noOfSeats": "150",
+      "blocked": 0
+    },
+    {
+      "id": 5,
+      "airlines": "Test",
+      "flightNo": "Fl12346",
+      "noOfSeats": "180",
+      "blocked": 1
+    }
+  ],
+  "schedule": [
+    {
+      "airlineName": "AirAsia",
+      "flightNo": "FL64514",
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "day": "daily",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "price": 1002,
+      "id": 1
+    },
+    {
+      "id": 2,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 3,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 4,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 5,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 6,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 7,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 8,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 9,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 10,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 11,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    },
+    {
+      "id": 12,
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily"
+    }
+  ]
+}
