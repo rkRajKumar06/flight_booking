@@ -1,0 +1,58 @@
+<app-header></app-header>
+<div class="container">
+    <h2 class="text-center">Ticket Booking</h2>
+    <h4>Details</h4>
+        <table class="table table-striped" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Flight No</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let result of scheduleDetailList1">
+                    <td>{{result.flightNo}}</td>
+                    <td>{{result.fromPlace}}</td>
+                    <td>{{result.toPlace}}</td>
+                    <td>{{result.departure}}</td>
+                    <td>{{result.arrival}}</td>
+                    <td>{{result.price}}</td>
+                </tr>
+            </tbody>
+        </table>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="to">Email</label>
+                <input id="return" class="form-control" [value]="email" type="text" disabled="true">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="to">No of Person(s)</label>
+                <input id="return" class="form-control" [value]="noOfSeats" type="number" (change)="calculateTotalPrice($event)">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="to">Total Price</label>
+                <input id="return" class="form-control" [value]="totalAmount" type="text" disabled="true">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="form-group text-center">
+                <input class="btn" style="background-color: red;color: white;margin-top: 22px;" type="button" value="Cancel">
+                <input class="btn" style="background-color: blue;color: white;margin-top: 22px;" type="button" value="Submit" (click)="bookTicket()">
+            </div>
+        </div>
+    </div>
+</div>

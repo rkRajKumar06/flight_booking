@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BookingDetails } from '../model/BookingDetails';
+import { UtilService } from '../util.service';
 
 @Component({
   selector: 'app-booking-history',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookingHistoryComponent implements OnInit {
 
-  constructor() { }
+  bookingDetails: BookingDetails[]=[];
+  constructor(private utilService: UtilService) { }
 
   ngOnInit(): void {
+    this.findAll();
   }
 
+  findAll(){
+    this.utilService.getAllBooking(this.utilService.getLoggedInUser().email).subscribe((data:any) => {
+      this.bookingDetails = data;
+    });
+  }
 }

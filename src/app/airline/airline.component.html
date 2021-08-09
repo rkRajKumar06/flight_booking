@@ -1,14 +1,82 @@
 <app-header></app-header>
-<h2>Manage Airlines</h2>
-<div class="inputElements">
-    <label for="airlineName">Airline Name :</label>
-    <input id="airlineName" type="text"><br><br>
-    <label for="flightNo">Flight No :</label>
-    <input id="flightNo" type="text"><br><br>
-    <label for="noOfSeats">No of Seats :</label>
-    <input id="noOfSeats" type="number"><br><br>
-    <label for="noOfRows">No of Rows :</label>
-    <input id="noOfRows" type="number"><br><br>
-    <button class="searchButton">Add</button>
+<div class="container">
+    <h2 class="text-center">Manage Airlines</h2>
+    <form [formGroup]="airlinesForm" (ngSubmit)="addAirline()">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="airline">Airline Name</label>
+                    <input id="airline" class="form-control" type="text" formControlName="airlines">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="flightNo">Flight No</label>
+                    <input id="flightNo" class="form-control" type="text" formControlName="flightNo">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="seats">Seats</label>
+                    <input id="seats" class="form-control" type="text" formControlName="noOfSeats">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <input class="btn" [disabled]="airlinesForm.invalid"
+                        style="background-color: green;color: white;margin-top: 22px;" type="submit" value="Add">
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
 <hr>
+<div class="container"
+    style="display: flex;padding: 10px;justify-content: space-evenly;Overflow-y: scroll;height: 300px;">
+    <div style="width: 45%;">
+        <table class="table table-striped" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Airlines</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let result of airlinesNames;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{result.name}}</td>
+                    <td><button *ngIf="result.status === true" class="btn" style="background-color: red;color: white;"
+                            (click)="blockOrEnableAirline(result.name,true)">Block</button>
+                        <button *ngIf="result.status === false" class="btn" style="background-color: green;color: white;"
+                            (click)="blockOrEnableAirline(result.name,false)">Enable</button>
+                        </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="width: 45%;">
+        <table class="table table-striped" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>S.No</th>
+                    <th>Airlines</th>
+                    <th>Flight No</th>
+                    <th>No of Seats</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let result of airlinesList;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{result.airlines}}</td>
+                    <td>{{result.flightNo}}</td>
+                    <td>{{result.noOfSeats}}</td>
+                    <td><p *ngIf="result.blocked === 0" style="color: green;font-weight: bold;">Active</p>
+                        <p *ngIf="result.blocked === 1" style="color: red;font-weight: bold;">Blocked</p></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

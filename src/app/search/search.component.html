@@ -6,7 +6,7 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label for="tripType">Trip Type</label>
-                <select id="tripType" class="form-control" formControlName="tripType">
+                <select id="tripType" class="form-control" formControlName="tripType" (change)="resetReturnDate(searchForm.value.tripType)">
                     <option value="">--Select--</option>
                     <option value="oneway">One Way</option>
                     <option value="round">Round</option>
@@ -33,49 +33,30 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="to">Departure</label>
-                <input id="return" class="form-control" type="date" formControlName="departureDate">
+                <label for="to">Departure Date</label>
+                <input id="departure" class="form-control" type="date" formControlName="departureDate">
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="to">Return</label>
-                <input id="return" class="form-control" type="date" formControlName="returnDate">
+                <label for="to">Return Date</label>
+                <input id="return" class="form-control" type="date" formControlName="returnDate" >
             </div>
         </div>
         <div class="col-md-2">
-            <div class="form-group text-center">
-                <input class="btn" style="background-color: green;color: white;" type="submit" value="Search">
+            <div class="form-group">
+                <input class="btn" type="button" (click)="resetSearch()" style="background-color: red;color: white;margin-top: 22px;width:40%;" value="Cancel">
+                <input class="btn" [disabled]="searchForm.invalid" style="background-color: green;color: white;margin-top: 22px;" type="submit" value="Search">
             </div>
         </div>
     </div>
 </form>
 </div>
-<!-- <div class="inputElements">
-    <input type="radio" id="oneway" name="tripType" [value]="tripType">
-    <label for="oneway">One Way</label>
-    <input type="radio" id="roundTrip" name="tripType" [value]="tripType">
-    <label for="roundTrip">Round Trip</label><br><br>
-    <label for="from">From :</label>
-    <select id="from">
-        <option *ngFor="let place of places">{{place}}</option>
-    </select>
-    <label for="to">To :</label>
-    <select id="to">
-
-        <option *ngFor="let place of places">{{place}}</option>
-    </select>
-    <label for="depart">Depart :</label>
-    <input id="depart" type="date">
-    <label for="return">Return :</label>
-    <input id="return" type="date"><br>
-
-    <button style="align-self: center;" class="searchButton">Search</button>
-</div> -->
 <br><br>
 <hr>
-<div class="container" style="display: flex;padding: 10px;justify-content: space-evenly;Overflow-y: scroll;height: 300px;">
-    <div style="width: 45%;">
+<div *ngIf="displayTable" class="container" style="display: flex;padding: 10px;justify-content: space-evenly;Overflow-y: scroll;height: 250px;">
+    <div style="width: 45%;" *ngIf="tripType === 'oneway' || tripType === 'round'">
+        <h4>{{searchForm.value.fromPlace}} to {{searchForm.value.toPlace}}</h4>
         <table class="table table-striped" style="width: 100%;">
             <thead>
                 <tr>
@@ -87,7 +68,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let result of oneWayList;let i = index">
+                <tr *ngFor="let result of oneWayList;let i = index" (click)="selectRowIdForTable1(result.id)" [style.background-color]="schedule1 == result.id? style : ''">
                     <td>{{i+1}}</td>
                     <td>{{result.departure}}</td>
                     <td>{{result.flightNo}}</td>
@@ -97,7 +78,8 @@
             </tbody>
         </table>
     </div>
-    <div style="width: 45%;">
+    <div style="width: 45%;" *ngIf="tripType === 'round'">
+        <h4>{{searchForm.value.toPlace}} to {{searchForm.value.fromPlace}}</h4>
         <table class="table table-striped" style="width: 100%;">
             <thead>
                 <tr>
@@ -109,7 +91,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let result of roundList;let i = index">
+                <tr *ngFor="let result of roundList;let i = index" (click)="selectRowIdForTable2(result.id)" [style.background-color]="schedule2 == result.id? style : ''">
                     <td>{{i+1}}</td>
                     <td>{{result.departure}}</td>
                     <td>{{result.flightNo}}</td>
@@ -118,5 +100,13 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+</div>
+<div class="container" *ngIf="displayTable">
+    <div class="text-end">
+        <div class="form-group">
+            <input class="btn" style="background-color: red;color: white;margin-top: 22px;" type="button" value="Cancel" (click)="cancelBookingSelection()">
+            <input class="btn" [disabled]="schedule1 == 0 || (tripType === 'round' && schedule2 == 0)" type="button" style="background-color: green;color: white;margin-top: 22px;" (click)="bookTicket()" value="Book">
+        </div>
     </div>
 </div>

@@ -12,6 +12,8 @@ import { LoginComponent } from './login/login.component';
 import { HeaderComponent } from './header/header.component';
 import { AirlineComponent } from './airline/airline.component';
 import { FlightScheduleComponent } from './flight-schedule/flight-schedule.component';
+import { BookingComponent } from './booking/booking.component';
+import { ManageCouponsComponent } from './manage-coupons/manage-coupons.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { FlightScheduleComponent } from './flight-schedule/flight-schedule.compo
     LoginComponent,
     HeaderComponent,
     AirlineComponent,
-    FlightScheduleComponent
+    FlightScheduleComponent,
+    BookingComponent,
+    ManageCouponsComponent
   ],
   imports: [
     BrowserModule,

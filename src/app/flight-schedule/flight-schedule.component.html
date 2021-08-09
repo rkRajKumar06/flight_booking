@@ -1,26 +1,113 @@
 <app-header></app-header>
-<h2>Flight Schedule</h2>
-<div class="inputElements">
-    <label for="scheduleFlightNo">Flight No :</label>
-    <input id="scheduleFlightNo" type="text"><br><br>
-    <label for="scheduleFrom">From :</label>
-    <select id="scheduleFrom">
-        <option *ngFor="let place of places">{{place}}</option>
-    </select>
-    <label for="scheduleTo">To :</label>
-    <select id="scheduleTo">
-        <option *ngFor="let place of places">{{place}}</option>
-    </select>
-    <label for="scheduleStartTime">Start Time :</label>
-    <input id="scheduleStartTime" type="time">
-    <label for="scheduleEndTime">End Time :</label>
-    <input id="scheduleEndTime" type="time"><br><br>
-    <label for="scheduleDay">Day :</label>
-    <input id="scheduleDay" type="text">
-    <br><br>
-    <label for="scheduleCost">Cost :</label>
-    <input id="scheduleCost" type="number"><br><br>
-    <label for="scheduleFoodType">Food Type :</label>
-    <input id="scheduleFoodType" type="text"><br><br>
-    <button class="searchButton" >Search</button>
+<div class="container">
+    <h2 class="text-center">Manage Schedule</h2>
+    <form [formGroup]="scheduleForm" (ngSubmit)="saveSchedule()">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="airline">Airline Name</label>
+                <select id="tripType" class="form-control" formControlName="airlineName" (change)="getFlightsbasedOnAirlines(scheduleForm.value.airlineName)">
+                    <option value="">--Select--</option>
+                    <option *ngFor="let airline of airlines">{{airline.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="flightNo">Flight No</label>
+                <select id="tripType" class="form-control" formControlName="flightNo">
+                    <option value="">--Select--</option>
+                    <option *ngFor="let flight of flightsList">{{flight}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="from">From</label>
+                <select id="from" class="form-control" formControlName="fromPlace">
+                    <option>--Select--</option>
+                    <option *ngFor="let place of places">{{place}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="to">To</label>
+                <select id="to" class="form-control" formControlName="toPlace">
+                    <option>--Select--</option>
+                    <option *ngFor="let place of places">{{place}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="tripType">Frequency</label>
+                <select id="tripType" class="form-control" formControlName="day">
+                    <option value="">--Select--</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekends">Weekends</option>
+                    <option value="weekdays">Week days</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="to">Departure Time</label>
+                <input id="return" class="form-control" type="time" formControlName="departure">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="to">Arrival Time</label>
+                <input id="return" class="form-control" type="time" formControlName="arrival">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="to">Price of Ticket</label>
+                <input id="return" class="form-control" type="number" formControlName="price">
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group text-center">
+                <input class="btn" [disabled]="scheduleForm.invalid" style="background-color: green;color: white;margin-top: 22px;" type="submit" value="Save">
+            </div>
+        </div>
+    </div>
+</form>
+</div>
+<hr>
+<div style="display: flex;padding: 10px;Overflow-y: scroll;height: 300px;">
+    <table class="table table-striped" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>S.No</th>
+                <th>Flight No</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Frequency</th>
+                <th>Departure</th>
+                <th>Arrival</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let result of scheduleList;let i = index">
+                <td>{{i+1}}</td>
+                <td>{{result.flightNo}}</td>
+                <td>{{result.fromPlace}}</td>
+                <td>{{result.toPlace}}</td>
+                <td>{{result.day}}</td>
+                <td>{{result.departure}}</td>
+                <td>{{result.arrival}}</td>
+                <td>{{result.price}}</td>
+                <td><button class="btn" (click)="enableEditOption(result)" style="background-color: green;color: white;">Edit</button>
+                    <button class="btn" (click)="delete(result.id)" style="background-color: red;color: white;">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

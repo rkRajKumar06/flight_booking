@@ -44,8 +44,7 @@ export class LoginComponent implements OnInit {
       let userObj: User = userArray[0];
       //console.log("test data"+userObj.name);
       if(userObj){
-        this.utilService.loggedInUser.name = userObj.name;
-        this.utilService.loggedInUser.role = userObj.role;
+        this.utilService.loggedInUser = userObj;
         sessionStorage.setItem("loggedInUser", JSON.stringify(this.utilService.loggedInUser));
         this.router.navigate(["/", "header"]);
       }else{

@@ -1,5 +1,6 @@
 export class Schedule{
     id: number=0;
+    airlineName: string = "";
     fromPlace: string = "";
     toPlace: string = "";
     departure: string = "";

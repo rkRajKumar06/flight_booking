@@ -1,8 +1,34 @@
 <app-header></app-header>
-<h2>Manage Booking</h2>
-<div class="inputElements">
-    <label for="emailId">Email ID : </label>
-    <input id="emailId" type="email">
-    <button class="searchButton">Search</button><br>
+<div class="container">
+<h2 class="text-center">Manage Booking</h2>
+<table class="table table-striped" style="width: 100%;">
+    <thead>
+        <tr>
+            <th>S.No</th>
+            <th>PNR</th>
+            <th>Flight No</th>
+            <th>From</th>
+            <th>To</th>
+            <th>Departure</th>
+            <th>Arrival</th>
+            <th>No of Person</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let result of bookingDetails;let i = index">
+            <td>{{i+1}}</td>
+            <td>{{result.pnr}}</td>
+            <td>{{result.flightNo}}</td>
+            <td>{{result.fromPlace}}</td>
+            <td>{{result.toPlace}}</td>
+            <td>{{result.departure}}</td>
+            <td>{{result.arrival}}</td>
+            <td>{{result.noOfPersons}}</td>
+            <td>{{result.amount}}</td>
+            <td><button class="btn" style="background-color: red;color: white;" (click)="cancelBooking(result)">Cancel</button></td>
+        </tr>
+    </tbody>
+</table>
 </div>
-<hr>

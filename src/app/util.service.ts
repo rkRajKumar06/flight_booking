@@ -3,6 +3,9 @@ import { Router } from '@angular/router';
 import { User } from './model/User';
 import { HttpClient } from "@angular/common/http";
 import { Observable, of } from 'rxjs';
+import { BookingDetails } from './model/BookingDetails';
+import { FlightDetails } from './model/FlightDetails';
+import { Schedule } from './model/Schedule';
 
 @Injectable({
   providedIn: 'root'
@@ -16,20 +19,6 @@ export class UtilService {
   public login(username: string, password: string){
     let result: boolean = false;
     return this.http.get(this.url+"user?name="+username+"&password="+password);
-    // if(username=="user" && password=="user"){
-    //   this.loggedInUser.name = username;
-    //   this.loggedInUser.role = "user";
-    //   result = true;
-    // }else if(username=="admin" && password=="admin"){
-    //   this.loggedInUser.name = username;
-    //   this.loggedInUser.role = "admin";
-    //   result = true;
-    // }else{
-    //   this.loggedInUser = new User();
-    //   result = false;
-    // }
-    // sessionStorage.setItem("loggedInUser", JSON.stringify(this.loggedInUser));
-    // return result;
   }
 
   register(user: User) {
@@ -41,6 +30,7 @@ export class UtilService {
     let value = sessionStorage.getItem("loggedInUser");
     if(value!==null && value!==""){
       let user: User = JSON.parse(value);
+      this.loggedInUser = user;
       return user;
     }else{
       return new User();
@@ -48,9 +38,63 @@ export class UtilService {
   }
 
   searchFlights(...args:string[]){
-    return this.http.get(this.url+"schedule?fromPlace="+args[0]+"&toPlace="+args[1]+"&departure="+args[2]);
+    return this.http.get(this.url+"schedule?fromPlace="+args[0]+"&toPlace="+args[1]);
   }
 
+  getAllActiveBooking(email: string){
+    return this.http.get(this.url+"bookingDetails?email="+email+"&active=1");
+  }
+
+  getAllBooking(email: string){
+    return this.http.get(this.url+"bookingDetails?email="+email);
+  }
+
+  cancelBooking(booking: BookingDetails){
+    return this.http.put(this.url+"bookingDetails/"+booking.id, booking);
+  }
+
+  addAirlines(airline: FlightDetails){
+    return this.http.post(this.url+"flightDetails", airline);
+  }
+
+  blockTheAirline(airline: FlightDetails){
+    return this.http.put(this.url+"flightDetails/"+airline.id, airline);
+  }
+
+  getAirlineByName(name: string){
+    return this.http.get(this.url+"flightDetails?airlines="+name);
+  }
+
+  getAirlines(){
+    return this.http.get(this.url+"flightDetails");
+  }
+
+  addSchedule(schedule: Schedule){
+    return this.http.post(this.url+"schedule", schedule);
+  }
+
+  updateSchedule(schedule: Schedule){
+    return this.http.put(this.url+"schedule/"+schedule.id, schedule);
+  }
+
+  deleteSchedule(id: number){
+    return this.http.delete(this.url+"schedule/"+id);
+  }
+
+  getSchedule(){
+    return this.http.get(this.url+"schedule");
+  }
+
+  getScheduleById(id: number){
+    return this.http.get(this.url+"schedule/"+id);
+  }
+
+  saveBooking(obj: BookingDetails){
+    return this.http.post(this.url+"bookingDetails", obj);
+  }
+
+  // discount
+  // report
   logout(){
     sessionStorage.setItem("loggedInUser", "");
     this.router.navigate(['login']);

@@ -4,7 +4,6 @@
         <div *ngIf="isRegister" class="col-md-4 login-form-2" style="border-right-color: violet;">
             <h3>Sign Up</h3>
             <form [formGroup]="signUpForm" (ngSubmit)="registerUser()">
-                {{signUpForm.controls.emailId.touched && signUpForm.controls.emailId.errors?.invalid && !signUpForm.controls.emailId.errors?.required}}
                 <div class="form-floating">
                     <input id="username" class="form-control" type="text" placeholder="username" formControlName="username">
                     <label for="username">Username</label>
