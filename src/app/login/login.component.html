@@ -12,14 +12,14 @@
                 <div class="form-floating">
                     <input id="emailId" class="form-control" type="email" placeholder="emailId" formControlName="emailId">
                     <label for="emailId">EmailId</label>
-                    <p class="alert-danger" *ngIf="signUpForm.controls.emailId.touched && signUpForm.controls.emailId.errors?.required">Email Id is required</p>
-                    <p class="alert-danger" *ngIf="signUpForm.controls.emailId.touched && signUpForm.controls.emailId.errors && !signUpForm.controls.emailId.errors?.required">Enter valid Email Id</p>
+                    <p class="alert-danger text-center" *ngIf="signUpForm.controls.emailId.touched && signUpForm.controls.emailId.errors?.required">Email Id is required</p>
+                    <p class="alert-danger text-center" *ngIf="signUpForm.controls.emailId.touched && signUpForm.controls.emailId.invalid && !signUpForm.controls.emailId.errors?.required">Enter valid Email Id</p>
                 </div>
                 
                 <div class="form-floating">
                     <input id="password" class="form-control" type="password" placeholder="password" formControlName="password">
                     <label for="password">Password</label>
-                    <p class="alert-danger" *ngIf="signUpForm.controls.password.touched && !!signUpForm.controls.password.errors">Password is required</p>
+                    <p class="alert-danger text-center" *ngIf="signUpForm.controls.password.touched && !!signUpForm.controls.password.errors">Password is required</p>
                 </div>
                     <p class="alert alert-danger" *ngIf="!isValid">Invalid Credentials !</p>
                 <div class="form-group text-center">
@@ -33,12 +33,12 @@
                 <div class="form-floating">
                     <input id="username" class="form-control" type="text" placeholder="username" formControlName="username">
                     <label for="username">Username</label>
-                    <p class="alert-danger" *ngIf="myForm.controls.username.touched && !!myForm.controls.username.errors">Username is required</p>
+                    <p class="alert-danger text-center" *ngIf="myForm.controls.username.touched && !!myForm.controls.username.errors">Username is required</p>
                 </div>
                 <div class="form-floating">
                     <input id="password" class="form-control" type="password" placeholder="password" formControlName="password">
                     <label for="password">Password</label>
-                    <p class="alert-danger" *ngIf="myForm.controls.password.touched && !!myForm.controls.password.errors">Password is required</p>
+                    <p class="alert-danger text-center" *ngIf="myForm.controls.password.touched && !!myForm.controls.password.errors">Password is required</p>
                 </div>
                 <div class="text-center">
                     <p class="alert alert-danger" *ngIf="!isValid">Something went wrong.</p>

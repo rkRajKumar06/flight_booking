@@ -6,6 +6,7 @@ import { Observable, of } from 'rxjs';
 import { BookingDetails } from './model/BookingDetails';
 import { FlightDetails } from './model/FlightDetails';
 import { Schedule } from './model/Schedule';
+import { Coupons } from './model/Coupons';
 
 @Injectable({
   providedIn: 'root'
@@ -93,8 +94,22 @@ export class UtilService {
     return this.http.post(this.url+"bookingDetails", obj);
   }
 
-  // discount
-  // report
+  getAllCoupons(){
+    return this.http.get(this.url+"coupons");
+  }
+
+  getAllActiveCoupons(){
+    return this.http.get(this.url+"coupons?status=true");
+  }
+
+  saveCoupon(obj: Coupons){
+    return this.http.post(this.url+"coupons", obj);
+  }
+
+  updateCoupon(obj: Coupons){
+    return this.http.put(this.url+"coupons/"+obj.id, obj);
+  }
+
   logout(){
     sessionStorage.setItem("loggedInUser", "");
     this.router.navigate(['login']);

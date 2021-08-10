@@ -54,6 +54,9 @@ export class SearchComponent implements OnInit {
   resetReturnDate(tripType: string){
     if(tripType === 'oneway'){
       this.searchForm.controls['returnDate'].setValue("");
+      this.searchForm.controls['returnDate'].disable();
+    }else{
+      this.searchForm.controls['returnDate'].enable();
     }
   }
 

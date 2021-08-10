@@ -24,7 +24,14 @@
                 </tr>
             </tbody>
         </table>
-    
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="to">Passenger Name</label>
+                    <input id="return" class="form-control" [value]="username" type="text" disabled="true">
+                </div>
+            </div>
+        </div>
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
@@ -35,13 +42,36 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label for="to">No of Person(s)</label>
-                <input id="return" class="form-control" [value]="noOfSeats" type="number" (change)="calculateTotalPrice($event)">
+                <input id="return" class="form-control" value="" type="number" #persons (change)="calculateTotalPrice(+persons.value)">
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="to">Ticket Price</label>
+                <input id="return" class="form-control" [value]="totalAmount" type="text" disabled="true">
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="coupons">Coupons</label>
+                <select id="coupons" class="form-control" [disabled]="!persons.value" #couponId (change)="calculatePrice(+couponId.value)">
+                    <option>--Select--</option>
+                    <option *ngFor="let data of couponsList" value="{{data.id}}">{{data.coupon}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="to">Percentage</label>
+                <input id="return" class="form-control" [value]="percentageDetection" type="number" disabled="true">
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label for="to">Total Price</label>
-                <input id="return" class="form-control" [value]="totalAmount" type="text" disabled="true">
+                <input id="return" class="form-control" [value]="finalPrice" type="text" disabled="true">
             </div>
         </div>
     </div>

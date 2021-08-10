@@ -1,27 +1,62 @@
 <app-header></app-header>
 <div class="container">
     <h2 class="text-center">Manage Coupons</h2>
-    <div class="row">
-        <div class="col-md-3">
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="to">Coupon</label>
-                <input id="return" class="form-control" value="ACH1235" type="text" >
+    <form [formGroup]="couponFormGroup" (ngSubmit)="saveCoupons()">
+        <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="to">Coupon</label>
+                    <input id="return" class="form-control" value="" type="text" formControlName="coupon" pattern="^[A-Za-z]+">
+                    <p class="alert-danger text-center" *ngIf="couponFormGroup.controls.coupon.touched && couponFormGroup.controls.coupon.errors?.required">This field is required.</p>
+                    <p class="alert-danger text-center" *ngIf="couponFormGroup.controls.coupon.touched && !couponFormGroup.controls.coupon.errors?.required && couponFormGroup.controls.coupon.invalid">Enter only Alpabets.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="to">Percentage</label>
+                    <input id="return" class="form-control" value="" type="number" formControlName="percentage" max="100">
+                    <p class="alert-danger text-center" *ngIf="couponFormGroup.controls.percentage.touched && couponFormGroup.controls.percentage.errors?.required">This field is required.</p>
+                    <p class="alert-danger text-center" *ngIf="couponFormGroup.controls.percentage.touched && !couponFormGroup.controls.percentage.errors?.required && couponFormGroup.controls.percentage.invalid">Enter less than 100.</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <input class="btn" [disabled]="couponFormGroup.invalid" style="background-color: green;color: white;margin-top: 22px;" type="submit"
+                        value="Add">
+                </div>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label for="to">Percentage</label>
-                <input id="return" class="form-control" value="" type="number" >
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <input class="btn" style="background-color: blue;color: white;margin-top: 22px;" type="button" value="Add" >
-            </div>
+    </form>
+    <hr>
+    <div class="container"
+        style="display: flex;padding: 10px;justify-content: space-evenly;Overflow-y: scroll;height: 350px;">
+        <div style="width: 60%;">
+            <table class="table table-striped" style="width: 100%;">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Coupon</th>
+                        <th>Percentage</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let result of couponsList;let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{result.coupon}}</td>
+                        <td>{{result.percentage}}</td>
+                        <td><button *ngIf="result.status === true" class="btn"
+                                style="background-color: red;color: white;"
+                                (click)="blockOrEnableCoupon(result)">Inactivate</button>
+                            <button *ngIf="result.status === false" class="btn"
+                                style="background-color: green;color: white;"
+                                (click)="blockOrEnableCoupon(result)">Activate</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <hr>
-
 </div>

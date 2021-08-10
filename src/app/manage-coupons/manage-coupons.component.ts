@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Coupons } from '../model/Coupons';
+import { UtilService } from '../util.service';
 
 @Component({
   selector: 'app-manage-coupons',
@@ -7,16 +10,40 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageCouponsComponent implements OnInit {
 
-  constructor() { }
+  couponFormGroup: FormGroup;
+  couponsList: Coupons[] = [];
+  constructor(private utilservice: UtilService) { 
+    this.getAllCoupons();
+    this.couponFormGroup = new FormGroup({
+      coupon: new FormControl('', Validators.required),
+      percentage: new FormControl('', Validators.required)
+    });
+  }
 
   ngOnInit(): void {
   }
 
   getAllCoupons(){
-    
+    this.utilservice.getAllCoupons().subscribe((data:any) => {
+      this.couponsList = data;
+    });
   }
 
   saveCoupons(){
+    let obj: Coupons = new Coupons();
+    obj.coupon = this.couponFormGroup.get('coupon')?.value;
+    obj.percentage = this.couponFormGroup.get('percentage')?.value;
+    obj.coupon = obj.coupon.toUpperCase();
+    this.utilservice.saveCoupon(obj).subscribe(()=>{
+      this.getAllCoupons();
+      this.couponFormGroup.reset();
+    });
+  }
 
+  blockOrEnableCoupon(obj: Coupons){
+    obj.status = !obj.status;
+    this.utilservice.updateCoupon(obj).subscribe(()=>{
+      this.getAllCoupons();
+    });
   }
 }
