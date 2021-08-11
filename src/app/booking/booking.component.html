@@ -2,86 +2,159 @@
 <div class="container">
     <h2 class="text-center">Ticket Booking</h2>
     <h4>Details</h4>
-        <table class="table table-striped" style="width: 100%;">
-            <thead>
-                <tr>
-                    <th>Flight No</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Departure</th>
-                    <th>Arrival</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let result of scheduleDetailList1">
-                    <td>{{result.flightNo}}</td>
-                    <td>{{result.fromPlace}}</td>
-                    <td>{{result.toPlace}}</td>
-                    <td>{{result.departure}}</td>
-                    <td>{{result.arrival}}</td>
-                    <td>{{result.price}}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label for="to">Passenger Name</label>
-                    <input id="return" class="form-control" [value]="username" type="text" disabled="true">
+    <hr>
+    <div style="display: flex;justify-content: space-evenly">
+        <div style="width: 47%;">
+            <h5>Departure</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Flight No</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let result of scheduleDetailList1">
+                        <td>{{result.flightNo}}</td>
+                        <td>{{result.fromPlace}}</td>
+                        <td>{{result.toPlace}}</td>
+                        <td>{{result.departure}}</td>
+                        <td>{{result.arrival}}</td>
+                        <td>{{result.price}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="width: 47%;">
+            <h5>Return</h5>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Flight No</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let result of scheduleDetailList1">
+                        <td>{{result.flightNo}}</td>
+                        <td>{{result.fromPlace}}</td>
+                        <td>{{result.toPlace}}</td>
+                        <td>{{result.departure}}</td>
+                        <td>{{result.arrival}}</td>
+                        <td>{{result.price}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <hr>
+    <div style="display: flex;">
+        <div style="width: 50%;padding: 5px;">
+            <h5>Passenger List</h5>
+            <div class="row">
+                <div class="col-md-4 form-group">
+                    <label for="to">Name</label>
+                    <input type="text" class="form-control" [(ngModel)]="passengerObj.name">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label for="to">Age</label>
+                    <input type="number" class="form-control" [(ngModel)]="passengerObj.age">
+                </div>
+                <div class="col-md-4 form-group">
+                    <label for="to">Meal</label>
+                    <select type="text" class="form-control" [(ngModel)]="passengerObj.mealType">
+                        <option value="">--Select--</option>
+                        <option value="veg">Veg</option>
+                        <option value="nonveg">Non-Veg</option>
+                    </select>
+                </div>
+            </div>
+            <div class="text-end">
+                <input class="btn" type="button" style="background-color: green;color: white;" (click)="addPassenger()" [disabled]="checkRequiredFieldPresent()" value="Add Passenger">
+            </div>
+            <div>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Meal</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let result of passengerList;let i = index;">
+                        <td>{{i+1}}</td>
+                        <td>{{result.name}}</td>
+                        <td>{{result.age}}</td>
+                        <td>{{result.mealType}}</td>
+                        <td><input class="btn" type="button" style="background-color: red;color: white;" (click)="removePassenger(i)" value="Remove"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </div>
+        <div style="width: 50%;padding: 5px;">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="to">Email</label>
+                        <input id="return" class="form-control" [value]="email" type="text" disabled="true">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="to">No of Person(s)</label>
+                        <input id="return" class="form-control" [value]="passengerList?.length" type="number" disabled="true">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="to">Ticket Price</label>
+                        <input id="return" class="form-control" [value]="totalAmount" type="text" disabled="true">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="coupons">Coupons</label>
+                        <select id="coupons" class="form-control" [disabled]="!passengerList?.length" #couponId
+                            (change)="calculateDiscountedPrice(+couponId.value)">
+                            <option>--Select--</option>
+                            <option *ngFor="let data of couponsList" value="{{data.id}}">{{data.coupon}} - {{data.percentage}}%</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="to">Total Price</label>
+                        <input id="return" class="form-control" [value]="finalPrice" type="text" disabled="true">
+                    </div>
                 </div>
             </div>
         </div>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="to">Email</label>
-                <input id="return" class="form-control" [value]="email" type="text" disabled="true">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="to">No of Person(s)</label>
-                <input id="return" class="form-control" value="" type="number" #persons (change)="calculateTotalPrice(+persons.value)">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="to">Ticket Price</label>
-                <input id="return" class="form-control" [value]="totalAmount" type="text" disabled="true">
-            </div>
-        </div>
     </div>
-    <div class="row">
-        <div class="col-md-4">
+    
+    <div>
+        <div class="text-end" style="margin-bottom: 60px;">
             <div class="form-group">
-                <label for="coupons">Coupons</label>
-                <select id="coupons" class="form-control" [disabled]="!persons.value" #couponId (change)="calculatePrice(+couponId.value)">
-                    <option>--Select--</option>
-                    <option *ngFor="let data of couponsList" value="{{data.id}}">{{data.coupon}}</option>
-                </select>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="to">Percentage</label>
-                <input id="return" class="form-control" [value]="percentageDetection" type="number" disabled="true">
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label for="to">Total Price</label>
-                <input id="return" class="form-control" [value]="finalPrice" type="text" disabled="true">
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4"></div>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <div class="form-group text-center">
-                <input class="btn" style="background-color: red;color: white;margin-top: 22px;" type="button" value="Cancel">
-                <input class="btn" style="background-color: blue;color: white;margin-top: 22px;" type="button" value="Submit" (click)="bookTicket()">
+                <input class="btn" style="background-color: red;color: white;margin-top: 22px;" type="button"
+                    value="Cancel">
+                <input [disabled]="!passengerList?.length" class="btn"
+                    style="background-color: blue;color: white;margin-top: 22px;" type="button" value="Submit"
+                    (click)="bookTicket()">
             </div>
         </div>
     </div>

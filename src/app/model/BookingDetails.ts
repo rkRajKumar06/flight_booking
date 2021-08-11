@@ -1,3 +1,5 @@
+import { Passenger } from "./Passenger";
+
 export class BookingDetails{
     id: number=0;
     pnr: string = "";
@@ -10,5 +12,6 @@ export class BookingDetails{
     fromPlace: string = "";
     toPlace: string = "";
     active: number=0;
+    passengerList: Passenger[]=[];
     //schedule related fields
 }
