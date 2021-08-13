@@ -59,26 +59,30 @@ export class FlightScheduleComponent implements OnInit {
   }
 
   getAllAirlines(){
-    this.utilService.getAirlines().subscribe((data:any) => {
-      let array: FlightDetails[] = data;
-      array.forEach(data=>{
-        if(data.blocked==0){
-        let airline: Airlines = new Airlines();
-        airline.name = data.airlines;
-        airline.status = data.blocked==0;
-        this.airlines.push(airline);
-      }
-      })
+    this.utilService.getAirlineList().subscribe((data:any) => {
+      this.airlines = data;
     });
   }
+
+  // getAllAirlines(){
+  //   this.utilService.getAirlines().subscribe((data:any) => {
+  //     let array: FlightDetails[] = data;
+  //     array.forEach(data=>{
+  //       if(data.blocked==0){
+  //       let airline: Airlines = new Airlines();
+  //       airline.name = data.airlines;
+  //       airline.status = data.blocked==0;
+  //       this.airlines.push(airline);
+  //     }
+  //     })
+  //   });
+  // }
 
   getFlightsbasedOnAirlines(airlineName: string){
     this.utilService.getAirlineByName(airlineName).subscribe((data:any)=>{
       let array: FlightDetails[] = data;
       array.forEach(data=>{
-        if(data.blocked==0){
-          this.flightsList.push(data.flightNo);
-        }
+        this.flightsList.push(data.flightNo);
       });
     });
   }

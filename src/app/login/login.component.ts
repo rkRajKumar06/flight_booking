@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
     this.utilService.login(this.myForm.get("username")?.value,this.myForm.get("password")?.value).subscribe((data:any)=>{
       let userArray: User[] = data;
       let userObj: User = userArray[0];
-      //console.log("test data"+userObj.name);
       if(userObj){
         this.utilService.loggedInUser = userObj;
         sessionStorage.setItem("loggedInUser", JSON.stringify(this.utilService.loggedInUser));
@@ -54,12 +53,6 @@ export class LoginComponent implements OnInit {
         this.router.navigate(["/", "login"]);
       }        
     });
-    // if(authenticatedUser || this.utilService.getLoggedInUser().role=="user"){
-    //   this.router.navigate(["/", "header"]);
-    // }else{
-    //   this.router.navigate(["/", "login"]);
-    //   this.isValid = false;
-    // }
   }
 
   registerUser(){
@@ -75,11 +68,6 @@ export class LoginComponent implements OnInit {
         this.changeView();
       }
     )
-    // if(){
-      
-    // }else{
-    //   this.isValid = false;
-    // }
   }
 
 }

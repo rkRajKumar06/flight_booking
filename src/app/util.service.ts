@@ -7,6 +7,7 @@ import { BookingDetails } from './model/BookingDetails';
 import { FlightDetails } from './model/FlightDetails';
 import { Schedule } from './model/Schedule';
 import { Coupons } from './model/Coupons';
+import { Airlines } from './model/Airlines';
 
 @Injectable({
   providedIn: 'root'
@@ -38,8 +39,8 @@ export class UtilService {
     }
   }
 
-  searchFlights(...args:string[]){
-    return this.http.get(this.url+"schedule?fromPlace="+args[0]+"&toPlace="+args[1]);
+  searchFlights(fromPlace: string, toPlace: string, noOfPassemgers: number){
+    return this.http.get(this.url+"schedule?fromPlace="+fromPlace+"&toPlace="+toPlace+"&isblocked=false");
   }
 
   getAllActiveBooking(email: string){
@@ -50,8 +51,24 @@ export class UtilService {
     return this.http.get(this.url+"bookingDetails?email="+email);
   }
 
+  getBookingDetails(id: number){
+    return this.http.get(this.url+"bookingDetails/"+id);
+  }
+
   cancelBooking(booking: BookingDetails){
     return this.http.put(this.url+"bookingDetails/"+booking.id, booking);
+  }
+
+  addAirlineName(airline: Airlines){
+    return this.http.post(this.url+"airline", airline);
+  }
+
+  updateAirlineName(airline: Airlines){
+    return this.http.put(this.url+"airline/"+airline.id, airline);
+  }
+
+  getAirlineList(){
+    return this.http.get(this.url+"airline");
   }
 
   addAirlines(airline: FlightDetails){

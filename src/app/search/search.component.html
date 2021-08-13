@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-                <label for="tripType">Trip Type</label>
+                <label for="tripType">Trip Type *</label>
                 <select id="tripType" class="form-control" formControlName="tripType" (change)="resetReturnDate(searchForm.value.tripType)">
                     <option value="">--Select--</option>
                     <option value="oneway">One Way</option>
@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="from">From</label>
+                <label for="from">From *</label>
                 <select id="from" class="form-control" formControlName="fromPlace">
                     <option>--Select--</option>
                     <option *ngFor="let place of places">{{place}}</option>
@@ -24,7 +24,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="to">To</label>
+                <label for="to">To *</label>
                 <select id="to" class="form-control" formControlName="toPlace">
                     <option>--Select--</option>
                     <option *ngFor="let place of places">{{place}}</option>
@@ -33,7 +33,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="to">Departure Date</label>
+                <label for="to">Departure Date *</label>
                 <input id="departure" class="form-control" type="date" formControlName="departureDate">
             </div>
         </div>
@@ -45,14 +45,21 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <input class="btn" type="button" (click)="resetSearch()" style="background-color: red;color: white;margin-top: 22px;width:40%;" value="Cancel">
+                <label for="noOfPassenger">No of Passenger(s) *</label>
+                <input id="noOfPassenger" class="form-control" type="number" formControlName="noOfPassenger" >
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-center">
+            <div class="form-group">
+                <input class="btn" type="button" (click)="resetSearch()" style="background-color: red;color: white;margin-top: 22px;" value="Cancel">
                 <input class="btn" [disabled]="searchForm.invalid" style="background-color: green;color: white;margin-top: 22px;" type="submit" value="Search">
             </div>
         </div>
     </div>
 </form>
 </div>
-<br>
 <hr>
 <div *ngIf="displayTable" class="container" style="display: flex;padding: 10px;justify-content: space-evenly;Overflow-y: scroll;height: 250px;">
     <div style="width: 45%;" *ngIf="tripType === 'oneway' || tripType === 'round'">

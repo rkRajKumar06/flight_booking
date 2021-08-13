@@ -28,7 +28,8 @@ export class SearchComponent implements OnInit {
       fromPlace: new FormControl("", Validators.required),
       toPlace: new FormControl("", Validators.required),
       departureDate: new FormControl("", Validators.required),
-      returnDate: new FormControl("")
+      returnDate: new FormControl(""),
+      noOfPassenger: new FormControl("", Validators.required)
     });
   }
 
@@ -40,14 +41,21 @@ export class SearchComponent implements OnInit {
     this.tripType = this.searchForm.get('tripType')?.value;
     console.log(" type "+this.tripType);
     if(this.searchForm.valid){
-      this.utilservice.searchFlights(this.searchForm.get('fromPlace')?.value,this.searchForm.get('toPlace')?.value).subscribe(
+      this.utilservice.searchFlights(this.searchForm.get('fromPlace')?.value,this.searchForm.get('toPlace')?.value, this.searchForm.get('noOfPassenger')?.value).subscribe(
         (data: any) => {
           console.log("search list-"+data);
           this.oneWayList = data;
-          this.roundList = data;
           this.displayTable = true;
         }
       );
+      if(this.tripType==="round"){
+        this.utilservice.searchFlights(this.searchForm.get('toPlace')?.value,this.searchForm.get('fromPlace')?.value, this.searchForm.get('noOfPassenger')?.value).subscribe(
+          (data: any) => {
+            console.log("search list-"+data);
+            this.roundList = data;
+          }
+        );
+      }
     }
   }
 
@@ -71,7 +79,9 @@ export class SearchComponent implements OnInit {
 
   bookTicket(){
     console.log(this.schedule1);
-    this.router.navigate(['/ticketBooking/'+this.schedule1]);
+    this.router.navigate(['/ticketBooking/'+this.schedule1, {id2: this.schedule2}]);
+    localStorage.setItem("departureDate", this.searchForm.get('departureDate')?.value);
+    localStorage.setItem("returnDate", this.searchForm.get('returnDate')?.value);
   }
 
   cancelBookingSelection(){

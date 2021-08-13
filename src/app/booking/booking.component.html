@@ -29,7 +29,7 @@
                 </tbody>
             </table>
         </div>
-        <div style="width: 47%;">
+        <div *ngIf="scheduleDetailList2.length>0" style="width: 47%;">
             <h5>Return</h5>
             <table class="table table-striped">
                 <thead>
@@ -43,7 +43,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let result of scheduleDetailList1">
+                    <tr *ngFor="let result of scheduleDetailList2">
                         <td>{{result.flightNo}}</td>
                         <td>{{result.fromPlace}}</td>
                         <td>{{result.toPlace}}</td>
@@ -92,6 +92,9 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr *ngIf="passengerList.length==0">
+                        <td colspan="5">No records.</td>
+                    </tr>
                     <tr *ngFor="let result of passengerList;let i = index;">
                         <td>{{i+1}}</td>
                         <td>{{result.name}}</td>
@@ -151,7 +154,7 @@
         <div class="text-end" style="margin-bottom: 60px;">
             <div class="form-group">
                 <input class="btn" style="background-color: red;color: white;margin-top: 22px;" type="button"
-                    value="Cancel">
+                    value="Cancel" (click)="cancel()">
                 <input [disabled]="!passengerList?.length" class="btn"
                     style="background-color: blue;color: white;margin-top: 22px;" type="button" value="Submit"
                     (click)="bookTicket()">

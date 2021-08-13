@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-                <label for="airline">Airline Name</label>
+                <label for="airline">Airline Name *</label>
                 <select id="tripType" class="form-control" formControlName="airlineName" (change)="getFlightsbasedOnAirlines(scheduleForm.value.airlineName)">
                     <option value="">--Select--</option>
                     <option *ngFor="let airline of airlines">{{airline.name}}</option>
@@ -14,7 +14,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="flightNo">Flight No</label>
+                <label for="flightNo">Flight No *</label>
                 <select id="tripType" class="form-control" formControlName="flightNo">
                     <option value="">--Select--</option>
                     <option *ngFor="let flight of flightsList">{{flight}}</option>
@@ -23,7 +23,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="from">From</label>
+                <label for="from">From *</label>
                 <select id="from" class="form-control" formControlName="fromPlace">
                     <option>--Select--</option>
                     <option *ngFor="let place of places">{{place}}</option>
@@ -32,7 +32,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="to">To</label>
+                <label for="to">To *</label>
                 <select id="to" class="form-control" formControlName="toPlace">
                     <option>--Select--</option>
                     <option *ngFor="let place of places">{{place}}</option>
@@ -41,7 +41,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="tripType">Frequency</label>
+                <label for="tripType">Frequency *</label>
                 <select id="tripType" class="form-control" formControlName="day">
                     <option value="">--Select--</option>
                     <option value="daily">Daily</option>
@@ -52,7 +52,7 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="to">Departure Time</label>
+                <label for="to">Departure Time *</label>
                 <input id="return" class="form-control" type="time" formControlName="departure">
             </div>
         </div>
@@ -60,13 +60,13 @@
     <div class="row">
         <div class="col-md-2">
             <div class="form-group">
-                <label for="to">Arrival Time</label>
+                <label for="to">Arrival Time *</label>
                 <input id="return" class="form-control" type="time" formControlName="arrival">
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="to">Price of Ticket</label>
+                <label for="to">Price of Ticket *</label>
                 <input id="return" class="form-control" type="number" formControlName="price">
             </div>
         </div>

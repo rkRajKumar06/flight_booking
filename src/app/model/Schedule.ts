@@ -8,4 +8,5 @@ export class Schedule{
     price: string = "";
     flightNo: string = "";
     day: string = "";
+    isblocked: boolean = false;
 }

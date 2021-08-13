@@ -6,19 +6,38 @@
             <div class="col-md-2"></div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="airline">Airline Name</label>
-                    <input id="airline" class="form-control" type="text" formControlName="airlines">
+                    <label for="airline">New Airline Name *</label>
+                    <input id="airline" class="form-control" type="text" #newairline (keyup)="newairline.value">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="flightNo">Flight No</label>
+                    <input class="btn" [disabled]="!newairline.value"
+                        style="background-color: green;color: white;margin-top: 22px;" type="button" (click)="saveAirLine(newairline.value)" value="Add">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="airline">Airline Name *</label>
+                    <select id="airline" class="form-control" formControlName="airlines">
+                        <option value="">--Select--</option>
+                        <option *ngFor="let obj of airlinesNames" value="{{obj.name}}">{{obj.name}}</option>
+                    </select>
+                    <!-- <input id="airline" class="form-control" type="text" formControlName="airlines"> -->
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="flightNo">Flight No *</label>
                     <input id="flightNo" class="form-control" type="text" formControlName="flightNo">
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="seats">Seats</label>
+                    <label for="seats">Seats *</label>
                     <input id="seats" class="form-control" type="text" formControlName="noOfSeats">
                 </div>
             </div>
@@ -48,9 +67,9 @@
                     <td>{{i+1}}</td>
                     <td>{{result.name}}</td>
                     <td><button *ngIf="result.status === true" class="btn" style="background-color: red;color: white;"
-                            (click)="blockOrEnableAirline(result.name,true)">Block</button>
+                            (click)="updateAirlineStatus(result,true)">Block</button>
                         <button *ngIf="result.status === false" class="btn" style="background-color: green;color: white;"
-                            (click)="blockOrEnableAirline(result.name,false)">Enable</button>
+                            (click)="updateAirlineStatus(result,false)">Enable</button>
                         </td>
                 </tr>
             </tbody>

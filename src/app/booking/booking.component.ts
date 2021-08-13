@@ -14,8 +14,10 @@ import { UtilService } from '../util.service';
 })
 export class BookingComponent implements OnInit {
 
-  id: number = 0;
+  id1: number = 0;
+  id2: number = 0;
   scheduleDetailList1: Schedule[] = [];
+  scheduleDetailList2: Schedule[] = [];
   couponsList: Coupons[] = [];
   totalAmount: number = 0;
   noOfSeats: number = 0;
@@ -28,8 +30,9 @@ export class BookingComponent implements OnInit {
   constructor(private utilService: UtilService, private router: Router,private routes: ActivatedRoute) { 
     this.routes.params.subscribe((pathVariable)=>{
       console.log(pathVariable);
-      this.id = pathVariable.id1;
-      console.log("test id"+this.id);
+      this.id1 = pathVariable.id1;
+      this.id2 = pathVariable.id2;
+      console.log("test id 1-"+this.id1+" test id2-"+this.id2);
       this.getScheduleById();
       this.getActiveCoupons();
     });
@@ -53,6 +56,9 @@ export class BookingComponent implements OnInit {
     if(noOfPersons>0){
       console.log(" price "+this.scheduleDetailList1[0].price);
       let fare: number = +this.scheduleDetailList1[0].price;
+      if(this.scheduleDetailList2.length>0){
+        fare = fare + (+this.scheduleDetailList2[0].price);
+      } 
       this.totalAmount = fare*noOfPersons;
     }
     this.finalPrice = this.totalAmount;
@@ -79,9 +85,14 @@ export class BookingComponent implements OnInit {
   }
 
   getScheduleById(){
-    if(this.id>0){
-      this.utilService.getScheduleById(this.id).subscribe((data:any)=>{
+    if(this.id1>0){
+      this.utilService.getScheduleById(this.id1).subscribe((data:any)=>{
         this.scheduleDetailList1.push(data);
+      });
+    } 
+    if(this.id2>0){
+      this.utilService.getScheduleById(this.id2).subscribe((data:any)=>{
+        this.scheduleDetailList2.push(data);
       });
     }
   }
@@ -95,7 +106,13 @@ export class BookingComponent implements OnInit {
     bookingDetails.flightNo = this.scheduleDetailList1[0].flightNo;
     bookingDetails.departure = this.scheduleDetailList1[0].departure;
     bookingDetails.arrival = this.scheduleDetailList1[0].arrival;
+    bookingDetails.amount = this.finalPrice;
+    bookingDetails.noOfPersons = this.passengerList.length;
     bookingDetails.active = 1;
+    let departuredate = localStorage.getItem("departureDate");
+    bookingDetails.departureDate = departuredate!==null? departuredate : "";
+    let returnDate = localStorage.getItem("returnDate");
+    bookingDetails.returnDate = returnDate!==null? returnDate : "";
     if(value!==null && value!==""){
       let user: User = JSON.parse(value);
       bookingDetails.email = user.email;
@@ -103,10 +120,18 @@ export class BookingComponent implements OnInit {
     bookingDetails.noOfPersons = +this.noOfSeats;
     bookingDetails.passengerList = this.passengerList;
     this.utilService.saveBooking(bookingDetails).subscribe(()=>{
+      localStorage.removeItem("departureDate");
+      localStorage.removeItem("returnDate");
       this.router.navigate(['/', 'manageBooking']);
     })
     //sucessful saving redirect to manage ticket/booking
     
+  }
+
+  cancel(){
+    localStorage.removeItem("departureDate");
+    localStorage.removeItem("returnDate");
+    this.router.navigate(['/', 'search']);
   }
 
   randomString(length: number) {

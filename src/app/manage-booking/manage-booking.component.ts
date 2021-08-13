@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { BookingDetails } from '../model/BookingDetails';
 import { UtilService } from '../util.service';
 
@@ -10,7 +11,7 @@ import { UtilService } from '../util.service';
 export class ManageBookingComponent implements OnInit {
 
   bookingDetails: BookingDetails[]=[];
-  constructor(private utilService: UtilService) { }
+  constructor(private utilService: UtilService,private router: Router) { }
 
   ngOnInit(): void {
     this.findAll();
@@ -28,6 +29,10 @@ export class ManageBookingComponent implements OnInit {
     this.utilService.cancelBooking(obj).subscribe(date=>{
       this.findAll();
     });
+  }
+
+  viewDetails(obj: BookingDetails){
+    this.router.navigate(['/viewBookingDetails/'+obj.id])
   }
 
 }

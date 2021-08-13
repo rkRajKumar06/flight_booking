@@ -12,6 +12,7 @@ import { ManageBookingComponent } from './manage-booking/manage-booking.componen
 import { ManageCouponsComponent } from './manage-coupons/manage-coupons.component';
 import { SearchComponent } from './search/search.component';
 import { UserGuard } from './user.guard';
+import { ViewBookingComponent } from './view-booking/view-booking.component';
 
 const routes: Routes = [
   {path:"", redirectTo: "login", pathMatch:"full"},
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path:"manageSchedule", component: FlightScheduleComponent, canActivate:[AdminGuard]},
   {path:"manageCoupons", component: ManageCouponsComponent, canActivate:[AdminGuard]},
   {path:"ticketBooking/:id1", component: BookingComponent},
+  {path:"viewBookingDetails/:id", component: ViewBookingComponent},
   {path:"**", redirectTo: "login", pathMatch:"full"}
 ];
 

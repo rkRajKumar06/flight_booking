@@ -24,25 +24,40 @@ export class AirlineComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllAirliles();
+    this.getAirlineNamesList();
   }
 
   getAllAirliles(){
     this.utilService.getAirlines().subscribe((data:any)=>{
       this.airlinesList = data;
-      this.createAirlinesNamesList(this.airlinesList);
+      //this.createAirlinesNamesList(this.airlinesList);
     });
   }
 
-  createAirlinesNamesList(list: FlightDetails[]){
-    this.airlinesNames = [];
-    for(let i=0; i<list.length; i++){
-      if(!this.airlinesNames.find(data => data.name === list[i].airlines)){
-        let obj: Airlines = new Airlines();
-        obj.name = list[i].airlines;
-        obj.status = list[i].blocked==0;
-        this.airlinesNames.push(obj);
-      }
-    }
+  getAirlineNamesList(){
+    this.utilService.getAirlineList().subscribe((data:any)=>{
+      this.airlinesNames = data;
+    });
+  }
+
+  // createAirlinesNamesList(list: FlightDetails[]){
+  //   this.airlinesNames = [];
+  //   for(let i=0; i<list.length; i++){
+  //     if(!this.airlinesNames.find(data => data.name === list[i].airlines)){
+  //       let obj: Airlines = new Airlines();
+  //       obj.name = list[i].airlines;
+  //       obj.status = list[i].blocked==0;
+  //       this.airlinesNames.push(obj);
+  //     }
+  //   }
+  // }
+
+  saveAirLine(name: string){
+    let airlineObj: Airlines = new Airlines();
+    airlineObj.name = name;
+    this.utilService.addAirlineName(airlineObj).subscribe(()=>{
+      this.getAirlineNamesList();
+    })
   }
 
   addAirline(){
@@ -52,6 +67,14 @@ export class AirlineComponent implements OnInit {
     flightDetailsObj.noOfSeats = this.airlinesForm.get('noOfSeats')?.value;
     this.utilService.addAirlines(flightDetailsObj).subscribe((data)=>{
       this.getAllAirliles();
+    });
+  }
+
+  updateAirlineStatus(obj: Airlines, isBlock: boolean){
+    obj.status = !obj.status;
+    this.utilService.updateAirlineName(obj).subscribe(()=>{
+      this.getAirlineNamesList();
+      this.blockOrEnableAirline(obj.name, isBlock);
     });
   }
 

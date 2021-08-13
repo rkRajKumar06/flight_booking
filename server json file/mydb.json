@@ -93,6 +93,60 @@
       "fromPlace": "Delhi",
       "toPlace": "Chennai",
       "active": 0
+    },
+    {
+      "id": 6,
+      "pnr": "PNR59647",
+      "flightNo": "FL64514",
+      "noOfPersons": 0,
+      "amount": 0,
+      "departure": "01:30",
+      "arrival": "04:30",
+      "email": "user@gmail.com",
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "active": 1,
+      "passengerList": [
+        {
+          "id": 0,
+          "name": "Raj",
+          "age": 20,
+          "mealType": "veg"
+        },
+        {
+          "id": 0,
+          "name": "Kumar",
+          "age": 8,
+          "mealType": "nonveg"
+        }
+      ]
+    }
+  ],
+  "airline": [
+    {
+      "id": 1,
+      "name": "SpiceJet",
+      "status": true
+    },
+    {
+      "id": 2,
+      "name": "AirIndia",
+      "status": true
+    },
+    {
+      "id": 3,
+      "name": "JetAirways",
+      "status": true
+    },
+    {
+      "id": 4,
+      "name": "AirAsia",
+      "status": true
+    },
+    {
+      "id": 5,
+      "name": "Test",
+      "status": false
     }
   ],
   "flightDetails": [
@@ -130,6 +184,13 @@
       "flightNo": "Fl12346",
       "noOfSeats": "180",
       "blocked": 1
+    },
+    {
+      "id": 6,
+      "airlines": "Test",
+      "flightNo": "FL123456",
+      "noOfSeats": "145",
+      "blocked": 1
     }
   ],
   "schedule": [
@@ -142,7 +203,8 @@
       "departure": "01:30",
       "arrival": "04:30",
       "price": 1002,
-      "id": 1
+      "id": 1,
+      "isblocked": false
     },
     {
       "id": 2,
@@ -153,7 +215,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 3,
@@ -164,7 +227,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 4,
@@ -175,7 +239,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 5,
@@ -186,7 +251,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 6,
@@ -197,7 +263,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 7,
@@ -208,7 +275,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 8,
@@ -219,7 +287,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 9,
@@ -230,7 +299,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 10,
@@ -241,7 +311,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 11,
@@ -252,7 +323,8 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
     },
     {
       "id": 12,
@@ -263,7 +335,88 @@
       "flightNo": "FL64514",
       "price": "1000",
       "airlineName": "AirAsia",
-      "day": "daily"
+      "day": "daily",
+      "isblocked": false
+    },
+    {
+      "airlineName": "AirAsia",
+      "flightNo": "FL64514",
+      "fromPlace": "Delhi",
+      "toPlace": "Chennai",
+      "day": "daily",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "price": 1002,
+      "id": 1,
+      "isblocked": false
+    },
+    {
+      "id": 13,
+      "fromPlace": "Chennai",
+      "toPlace": "Delhi",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily",
+      "isblocked": false
+    },
+    {
+      "id": 14,
+      "fromPlace": "Chennai",
+      "toPlace": "Delhi",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily",
+      "isblocked": false
+    },
+    {
+      "id": 15,
+      "fromPlace": "Chennai",
+      "toPlace": "Delhi",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily",
+      "isblocked": false
+    },
+    {
+      "id": 16,
+      "fromPlace": "Chennai",
+      "toPlace": "Delhi",
+      "departure": "01:30",
+      "arrival": "04:30",
+      "flightNo": "FL64514",
+      "price": "1000",
+      "airlineName": "AirAsia",
+      "day": "daily",
+      "isblocked": false
+    }
+  ],
+  "coupons": [
+    {
+      "id": 1,
+      "coupon": "TAWAHAY",
+      "percentage": 10,
+      "status": true
+    },
+    {
+      "id": 2,
+      "coupon": "RXVCHFGG",
+      "percentage": 15,
+      "status": true
+    },
+    {
+      "id": 3,
+      "coupon": "WQRYGFHFDHG",
+      "percentage": 12,
+      "status": true
     }
   ]
 }

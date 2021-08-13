@@ -6,6 +6,8 @@ export class BookingDetails{
     flightNo: string = "";
     noOfPersons: number = 0;
     amount: number = 0;
+    departureDate: string = "";
+    returnDate: string = "";
     departure: string = "";
     arrival: string = "";
     email: string = "";
