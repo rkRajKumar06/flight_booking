@@ -31,9 +31,9 @@ export class ManageCouponsComponent implements OnInit {
 
   saveCoupons(){
     let obj: Coupons = new Coupons();
-    obj.coupon = this.couponFormGroup.get('coupon')?.value;
+    obj.name = this.couponFormGroup.get('coupon')?.value;
     obj.percentage = this.couponFormGroup.get('percentage')?.value;
-    obj.coupon = obj.coupon.toUpperCase();
+    obj.name = obj.name.toUpperCase();
     this.utilservice.saveCoupon(obj).subscribe(()=>{
       this.getAllCoupons();
       this.couponFormGroup.reset();
@@ -41,7 +41,7 @@ export class ManageCouponsComponent implements OnInit {
   }
 
   blockOrEnableCoupon(obj: Coupons){
-    obj.status = !obj.status;
+    obj.inactive = !obj.inactive;
     this.utilservice.updateCoupon(obj).subscribe(()=>{
       this.getAllCoupons();
     });

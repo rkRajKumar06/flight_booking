@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BookingDetails } from '../model/BookingDetails';
 import { Coupons } from '../model/Coupons';
+import { FlightDetails } from '../model/FlightDetails';
 import { Passenger } from '../model/Passenger';
 import { Schedule } from '../model/Schedule';
 import { User } from '../model/User';
@@ -16,23 +17,26 @@ export class BookingComponent implements OnInit {
 
   id1: number = 0;
   id2: number = 0;
+  pasenger: number = 0;
+  discountPercentage: number = 0;
   scheduleDetailList1: Schedule[] = [];
   scheduleDetailList2: Schedule[] = [];
   couponsList: Coupons[] = [];
   totalAmount: number = 0;
-  noOfSeats: number = 0;
   email: string = "";
   finalPrice: number = 0;
   percentageDetection: number = 0;
   passengerList: Passenger[] = [];
   passengerObj: Passenger = new Passenger();
+  private allFlightsList: FlightDetails[] = [];
 
   constructor(private utilService: UtilService, private router: Router,private routes: ActivatedRoute) { 
     this.routes.params.subscribe((pathVariable)=>{
       console.log(pathVariable);
       this.id1 = pathVariable.id1;
       this.id2 = pathVariable.id2;
-      console.log("test id 1-"+this.id1+" test id2-"+this.id2);
+      this.pasenger = pathVariable.passenger;
+      console.log("test id 1-"+this.id1+" test id2-"+this.id2+" passenger "+this.pasenger);
       this.getScheduleById();
       this.getActiveCoupons();
     });
@@ -66,6 +70,7 @@ export class BookingComponent implements OnInit {
 
   calculateDiscountedPrice(id: number){
     console.log(" test cha "+id);
+    this.discountPercentage = id;
     if(id>0){
       let obj: Coupons = new Coupons();
     this.couponsList.forEach(data=>{
@@ -79,9 +84,24 @@ export class BookingComponent implements OnInit {
     }
   }
 
+  getAllFlightDetails(){
+    this.utilService.getFlightDetails().subscribe((data:any) => {
+      this.allFlightsList = data;
+    });
+  }
+
+  getFlightName(id:number){
+    console.log(" name id "+id);
+    if(this.allFlightsList.length>0){
+      return this.allFlightsList.filter(data => {return data.id == id})[0].flightNo;
+    }
+    return "";
+  }
+
   ngOnInit(): void {
     // get schedule details for DISPLAY==> flight name, price of the ticket, no of seats, email
     // input no of persons, total price of the ticket, 
+    this.getAllFlightDetails();
   }
 
   getScheduleById(){
@@ -103,28 +123,31 @@ export class BookingComponent implements OnInit {
     bookingDetails.pnr = "PNR"+this.randomString(5);
     bookingDetails.fromPlace = this.scheduleDetailList1[0].fromPlace;
     bookingDetails.toPlace = this.scheduleDetailList1[0].toPlace;
-    bookingDetails.flightNo = this.scheduleDetailList1[0].flightNo;
-    bookingDetails.departure = this.scheduleDetailList1[0].departure;
-    bookingDetails.arrival = this.scheduleDetailList1[0].arrival;
-    bookingDetails.amount = this.finalPrice;
-    bookingDetails.noOfPersons = this.passengerList.length;
-    bookingDetails.active = 1;
+    bookingDetails.flightDetails1 = this.scheduleDetailList1[0].flightDetails;
+    if(this.scheduleDetailList2.length>0){
+      bookingDetails.flightDetails2 = this.scheduleDetailList2[0].flightDetails;
+    }
+    bookingDetails.amount = this.totalAmount;
+    bookingDetails.totalAmount = this.finalPrice;
+    //bookingDetails.noOfPersons = this.passengerList.length;
+    bookingDetails.cancelled = false;
     let departuredate = localStorage.getItem("departureDate");
     bookingDetails.departureDate = departuredate!==null? departuredate : "";
     let returnDate = localStorage.getItem("returnDate");
     bookingDetails.returnDate = returnDate!==null? returnDate : "";
+
     if(value!==null && value!==""){
       let user: User = JSON.parse(value);
       bookingDetails.email = user.email;
     }
-    bookingDetails.noOfPersons = +this.noOfSeats;
+    bookingDetails.noOfPersons = +this.pasenger;
     bookingDetails.passengerList = this.passengerList;
     this.utilService.saveBooking(bookingDetails).subscribe(()=>{
       localStorage.removeItem("departureDate");
       localStorage.removeItem("returnDate");
       this.router.navigate(['/', 'manageBooking']);
+      // add kafka to REDUCE the no of available tickets in SCHEDULE
     })
-    //sucessful saving redirect to manage ticket/booking
     
   }
 
@@ -142,10 +165,13 @@ export class BookingComponent implements OnInit {
 }
 
   addPassenger(){
-    this.passengerList.push(this.passengerObj);
-    this.passengerObj = new Passenger();
-    this.calculateTotalPrice();
-    this.calculateDiscountedPrice(0);
+    console.log(" list length "+this.passengerList.length);
+    if(this.passengerList.length==0 || this.passengerList.length<this.pasenger){
+      this.passengerList.push(this.passengerObj);
+      this.passengerObj = new Passenger();
+      this.calculateTotalPrice();
+      this.calculateDiscountedPrice(this.discountPercentage);
+    }
   }
 
   checkRequiredFieldPresent(): boolean{

@@ -12,25 +12,25 @@ import { UtilService } from '../util.service';
 export class AirlineComponent implements OnInit {
 
   airlinesForm: FormGroup;
-  airlinesList: FlightDetails[] = [];
+  flightDetailsList: FlightDetails[] = [];
   airlinesNames: Airlines[] = [];
   constructor(private utilService: UtilService) { 
     this.airlinesForm = new FormGroup({
       airlines: new FormControl("", Validators.required),
       flightNo: new FormControl("", Validators.required),
-      noOfSeats: new FormControl("", Validators.required)
+      businessClassSeats: new FormControl("", Validators.required),
+      economyClassSeats: new FormControl("", Validators.required)
     });
   }
 
   ngOnInit(): void {
-    this.getAllAirliles();
+    this.getAllFlightDetails();
     this.getAirlineNamesList();
   }
 
-  getAllAirliles(){
-    this.utilService.getAirlines().subscribe((data:any)=>{
-      this.airlinesList = data;
-      //this.createAirlinesNamesList(this.airlinesList);
+  getAllFlightDetails(){
+    this.utilService.getFlightDetails().subscribe((data:any)=>{
+      this.flightDetailsList = data;
     });
   }
 
@@ -40,55 +40,56 @@ export class AirlineComponent implements OnInit {
     });
   }
 
-  // createAirlinesNamesList(list: FlightDetails[]){
-  //   this.airlinesNames = [];
-  //   for(let i=0; i<list.length; i++){
-  //     if(!this.airlinesNames.find(data => data.name === list[i].airlines)){
-  //       let obj: Airlines = new Airlines();
-  //       obj.name = list[i].airlines;
-  //       obj.status = list[i].blocked==0;
-  //       this.airlinesNames.push(obj);
-  //     }
-  //   }
-  // }
-
-  saveAirLine(name: string){
+  getAirlineName(id: number){
+    if(this.airlinesNames.length>0){
+      return this.airlinesNames.filter(data => {return data.id == id})[0].name;
+    }
+    return "";
+  }
+//saveAirLine(name: string){
+  saveAirLine(obj: HTMLInputElement){
+    console.log(obj.value);
     let airlineObj: Airlines = new Airlines();
-    airlineObj.name = name;
+    airlineObj.name = obj.value;
     this.utilService.addAirlineName(airlineObj).subscribe(()=>{
       this.getAirlineNamesList();
     })
+    obj.value = "";
   }
 
-  addAirline(){
+  addFlightDetails(){
     let flightDetailsObj: FlightDetails = new FlightDetails();
+    //console.log(" airline obj "+JSON.stringify(this.airlinesForm.get('airlines')?.value));
     flightDetailsObj.airlines = this.airlinesForm.get('airlines')?.value;
     flightDetailsObj.flightNo = this.airlinesForm.get('flightNo')?.value;
-    flightDetailsObj.noOfSeats = this.airlinesForm.get('noOfSeats')?.value;
-    this.utilService.addAirlines(flightDetailsObj).subscribe((data)=>{
-      this.getAllAirliles();
+    flightDetailsObj.businessClassSeats = this.airlinesForm.get('businessClassSeats')?.value;
+    flightDetailsObj.economyClassSeats = this.airlinesForm.get('economyClassSeats')?.value;
+    this.utilService.addFlightDetails(flightDetailsObj).subscribe((data)=>{
+      this.getAllFlightDetails();
+      this.airlinesForm.reset();
     });
   }
 
   updateAirlineStatus(obj: Airlines, isBlock: boolean){
-    obj.status = !obj.status;
+    obj.blocked = !obj.blocked;
     this.utilService.updateAirlineName(obj).subscribe(()=>{
       this.getAirlineNamesList();
-      this.blockOrEnableAirline(obj.name, isBlock);
+      this.getAllFlightDetails();
+      //this.blockOrEnableAirline(obj.name, isBlock);
     });
   }
 
-  blockOrEnableAirline(airlineName: string, isBlock: boolean){
-    this.utilService.getAirlineByName(airlineName).subscribe((data:any)=>{
-      let dataArray: FlightDetails[] = data;
-      for(let i=0; i<dataArray.length; i++){
-        let obj = dataArray[i];
-        obj.blocked = isBlock? 1 : 0;
-        this.utilService.blockTheAirline(obj).subscribe(data => {
-          this.getAllAirliles();
-        });
-      }
-    });
-  }
+  // blockOrEnableAirline(airlineName: string, isBlock: boolean){
+  //   this.utilService.getAirlineByName(airlineName).subscribe((data:any)=>{
+  //     let dataArray: FlightDetails[] = data;
+  //     for(let i=0; i<dataArray.length; i++){
+  //       let obj = dataArray[i];
+  //       obj.blocked = isBlock;
+  //       this.utilService.blockTheAirline(obj).subscribe(data => {
+  //         this.getAllFlightDetails();
+  //       });
+  //     }
+  //   });
+  // }
 
 }

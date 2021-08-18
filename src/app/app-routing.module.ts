@@ -24,8 +24,8 @@ const routes: Routes = [
   {path:"airline", component: AirlineComponent, canActivate:[AdminGuard]},
   {path:"manageSchedule", component: FlightScheduleComponent, canActivate:[AdminGuard]},
   {path:"manageCoupons", component: ManageCouponsComponent, canActivate:[AdminGuard]},
-  {path:"ticketBooking/:id1", component: BookingComponent},
-  {path:"viewBookingDetails/:id", component: ViewBookingComponent},
+  {path:"ticketBooking/:id1", component: BookingComponent, canActivate:[UserGuard]},
+  {path:"viewBookingDetails/:id", component: ViewBookingComponent, canActivate:[UserGuard]},
   {path:"**", redirectTo: "login", pathMatch:"full"}
 ];
 

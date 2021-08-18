@@ -19,11 +19,11 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let result of scheduleDetailList1">
-                        <td>{{result.flightNo}}</td>
+                        <td>{{getFlightName(result.flightDetails)}}</td>
                         <td>{{result.fromPlace}}</td>
                         <td>{{result.toPlace}}</td>
-                        <td>{{result.departure}}</td>
-                        <td>{{result.arrival}}</td>
+                        <td>{{result.departureTime}}</td>
+                        <td>{{result.arrivalTime}}</td>
                         <td>{{result.price}}</td>
                     </tr>
                 </tbody>
@@ -44,11 +44,11 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let result of scheduleDetailList2">
-                        <td>{{result.flightNo}}</td>
+                        <td>{{getFlightName(result.flightDetails)}}</td>
                         <td>{{result.fromPlace}}</td>
                         <td>{{result.toPlace}}</td>
-                        <td>{{result.departure}}</td>
-                        <td>{{result.arrival}}</td>
+                        <td>{{result.departureTime}}</td>
+                        <td>{{result.arrivalTime}}</td>
                         <td>{{result.price}}</td>
                     </tr>
                 </tbody>
@@ -136,7 +136,7 @@
                         <select id="coupons" class="form-control" [disabled]="!passengerList?.length" #couponId
                             (change)="calculateDiscountedPrice(+couponId.value)">
                             <option>--Select--</option>
-                            <option *ngFor="let data of couponsList" value="{{data.id}}">{{data.coupon}} - {{data.percentage}}%</option>
+                            <option *ngFor="let data of couponsList" value="{{data.id}}">{{data.name}} - {{data.percentage}}%</option>
                         </select>
                     </div>
                 </div>

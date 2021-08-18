@@ -1,8 +1,9 @@
+import { HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { User } from '../model/User';
-import { UtilService } from '../util.service';
+import { AUTHENTICATED_USER, TOKEN, UtilService } from '../util.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { UtilService } from '../util.service';
 })
 export class LoginComponent implements OnInit {
   isRegister = false;
-  view: string = "Login";
+  view: string = "Sign Up";
   myForm: FormGroup;
   signUpForm: FormGroup;
   isValid: boolean = true;
@@ -32,28 +33,57 @@ export class LoginComponent implements OnInit {
 
   changeView(){
     this.isRegister = !this.isRegister;
-    this.view = this.isRegister? "Sign Up": "Login"; 
+    this.view = this.isRegister? "Login" : "Sign Up"; 
     this.isValid = true;
   }
 
   verifyLogin(){
     console.log(this.myForm.value);
     this.isValid = true;
-    this.utilService.login(this.myForm.get("username")?.value,this.myForm.get("password")?.value).subscribe((data:any)=>{
-      let userArray: User[] = data;
-      let userObj: User = userArray[0];
-      if(userObj){
-        this.utilService.loggedInUser = userObj;
-        sessionStorage.setItem("loggedInUser", JSON.stringify(this.utilService.loggedInUser));
+    this.utilService.executeJWTAuthenticationService(this.myForm.get("username")?.value,this.myForm.get("password")?.value).subscribe((data)=>{
+      let userObj: User = new User();
+      userObj.name = this.myForm.get("username")?.value;
+      let email = sessionStorage.getItem("email");;
+      let role = sessionStorage.getItem("role");
+      if(email!==null && role!==null){
+        userObj.email = email;
+        userObj.role = role;
+      }
+      console.log("test login with jwt");
+        sessionStorage.setItem("loggedInUser", JSON.stringify(userObj));
         this.router.navigate(["/", "header"]);
-      }else{
-        this.utilService.loggedInUser = new User();
-        sessionStorage.setItem("loggedInUser", JSON.stringify(this.utilService.loggedInUser));
-        this.isValid = false;
-        this.router.navigate(["/", "login"]);
-      }        
+              
+    }, (err)=>{
+      this.utilService.loggedInUser = new User();
+      sessionStorage.setItem("loggedInUser", JSON.stringify(new User()));
+      sessionStorage.setItem(AUTHENTICATED_USER, "");
+      sessionStorage.setItem(TOKEN, "");
+      sessionStorage.setItem("role", "");
+      sessionStorage.setItem("email", "");
+      this.isValid = false;
+      this.router.navigate(["/", "login"]);
     });
   }
+
+  // verifyLogin(){
+  //   console.log(this.myForm.value);
+  //   this.isValid = true;
+  //   this.utilService.login(this.myForm.get("username")?.value,this.myForm.get("password")?.value).subscribe((data:any)=>{
+  //     let userArray: User[] = data;
+  //     let userObj: User = userArray[0];
+  //     if(userObj){
+  //       this.utilService.loggedInUser = userObj;
+  //       sessionStorage.setItem("loggedInUser", JSON.stringify(this.utilService.loggedInUser));
+  //       this.router.navigate(["/", "header"]);
+  //     }else{
+  //       this.utilService.loggedInUser = new User();
+  //       sessionStorage.setItem("loggedInUser", JSON.stringify(this.utilService.loggedInUser));
+  //       this.isValid = false;
+  //       this.router.navigate(["/", "login"]);
+  //     }        
+  //   });
+  // }
+
 
   registerUser(){
     this.isValid = true;

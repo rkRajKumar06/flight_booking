@@ -45,12 +45,12 @@
                 <tbody>
                     <tr *ngFor="let result of couponsList;let i = index">
                         <td>{{i+1}}</td>
-                        <td>{{result.coupon}}</td>
+                        <td>{{result.name}}</td>
                         <td>{{result.percentage}}</td>
-                        <td><button *ngIf="result.status === true" class="btn"
+                        <td><button *ngIf="result.inactive === false" class="btn"
                                 style="background-color: red;color: white;"
                                 (click)="blockOrEnableCoupon(result)">Inactivate</button>
-                            <button *ngIf="result.status === false" class="btn"
+                            <button *ngIf="result.inactive === true" class="btn"
                                 style="background-color: green;color: white;"
                                 (click)="blockOrEnableCoupon(result)">Activate</button>
                         </td>

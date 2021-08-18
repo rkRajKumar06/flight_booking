@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +16,7 @@ import { BookingComponent } from './booking/booking.component';
 import { ManageCouponsComponent } from './manage-coupons/manage-coupons.component';
 import { FooterComponent } from './footer/footer.component';
 import { ViewBookingComponent } from './view-booking/view-booking.component';
+import { HttpInterceptorAuthService } from './http/http-interceptor-auth.service';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { ViewBookingComponent } from './view-booking/view-booking.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    //{provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorAuthService, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { UtilService } from './util.service';
 
@@ -8,8 +8,7 @@ import { UtilService } from './util.service';
 })
 export class UserGuard implements CanActivate {
 
-  constructor(private utilService: UtilService){
-
+  constructor(private utilService: UtilService, private router: Router){
   }
 
   canActivate(
@@ -18,6 +17,7 @@ export class UserGuard implements CanActivate {
       if(this.utilService.getLoggedInUser().role=="user"){
         return true;
       }
+      this.router.navigate(['/', 'login']);
     return false;
   }
   

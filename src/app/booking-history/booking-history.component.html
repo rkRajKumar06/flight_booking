@@ -10,7 +10,7 @@
                 <th>From</th>
                 <th>To</th>
                 <th>Departure</th>
-                <th>Arrival</th>
+                <th>Return</th>
                 <th>No of Person</th>
                 <th>Price</th>
                 <th>Status</th>
@@ -20,16 +20,16 @@
             <tr *ngFor="let result of bookingDetails;let i = index">
                 <td>{{i+1}}</td>
                 <td>{{result.pnr}}</td>
-                <td>{{result.flightNo}}</td>
+                <td>{{result.flightDetails1}}</td>
                 <td>{{result.fromPlace}}</td>
                 <td>{{result.toPlace}}</td>
-                <td>{{result.departure}}</td>
-                <td>{{result.arrival}}</td>
+                <td>{{result.departureDate}}</td>
+                <td>{{result.returnDate}}</td>
                 <td>{{result.noOfPersons}}</td>
                 <td>{{result.amount}}</td>
                 <td>
-                    <p *ngIf="result.active === 1" style="color: green;font-weight: bold;">Completed</p>
-                    <p *ngIf="result.active === 0" style="color: red;font-weight: bold;">Cancelled</p>
+                    <p *ngIf="result.cancelled === false" style="color: green;font-weight: bold;">Completed</p>
+                    <p *ngIf="result.cancelled === true" style="color: red;font-weight: bold;">Cancelled</p>
                 </td>
             </tr>
         </tbody>

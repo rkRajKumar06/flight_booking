@@ -1,7 +1,10 @@
+import { Airlines } from "./Airlines";
+
 export class FlightDetails{
     id: number = 0;
-    airlines: string = "";
+    airlines: number = 0;
     flightNo: string = "";
-    noOfSeats: number = 0;
-    blocked: number=0;
+    businessClassSeats: number = 0;
+    economyClassSeats: number = 0;
+    blocked: boolean=false;
 }

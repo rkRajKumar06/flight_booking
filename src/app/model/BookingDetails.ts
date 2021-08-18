@@ -3,17 +3,21 @@ import { Passenger } from "./Passenger";
 export class BookingDetails{
     id: number=0;
     pnr: string = "";
-    flightNo: string = "";
+    //flightNo: number = 0;
     noOfPersons: number = 0;
     amount: number = 0;
+    totalAmount: number = 0;
     departureDate: string = "";
     returnDate: string = "";
-    departure: string = "";
-    arrival: string = "";
+    //departure: string = "";
+    //arrival: string = "";
     email: string = "";
     fromPlace: string = "";
     toPlace: string = "";
-    active: number=0;
+    cancelled: boolean=false;
     passengerList: Passenger[]=[];
+    flightDetails1: number = 0;
+    flightDetails2: number = 0;
+    couponId: number = 0;
     //schedule related fields
 }

@@ -45,13 +45,23 @@
         </div>
         <div class="col-md-2">
             <div class="form-group">
-                <label for="noOfPassenger">No of Passenger(s) *</label>
-                <input id="noOfPassenger" class="form-control" type="number" formControlName="noOfPassenger" >
+                <label for="classType">Class *</label>
+                <select id="classType" class="form-control" formControlName="classType">
+                    <option>--Select--</option>
+                    <option value="business">Business</option>
+                    <option value="economy">Economy</option>
+                </select>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="text-center">
+        <div class="col-md-2">
+            <div class="form-group">
+                <label for="noOfPassenger">No of Passenger(s) *</label>
+                <input id="noOfPassenger" class="form-control" type="number" formControlName="noOfPassenger" >
+            </div>
+        </div>
+        <div class="col-md-2">
             <div class="form-group">
                 <input class="btn" type="button" (click)="resetSearch()" style="background-color: red;color: white;margin-top: 22px;" value="Cancel">
                 <input class="btn" [disabled]="searchForm.invalid" style="background-color: green;color: white;margin-top: 22px;" type="submit" value="Search">
@@ -77,9 +87,9 @@
             <tbody>
                 <tr *ngFor="let result of oneWayList;let i = index" (click)="selectRowIdForTable1(result.id)" [style.background-color]="schedule1 == result.id? style : ''">
                     <td>{{i+1}}</td>
-                    <td>{{result.departure}}</td>
-                    <td>{{result.flightNo}}</td>
-                    <td>{{result.arrival}}</td>
+                    <td>{{result.departureTime}}</td>
+                    <td>{{result.flightDetails}}</td>
+                    <td>{{result.arrivalTime}}</td>
                     <td>{{result.price}}</td>
                 </tr>
             </tbody>
@@ -100,9 +110,9 @@
             <tbody>
                 <tr *ngFor="let result of roundList;let i = index" (click)="selectRowIdForTable2(result.id)" [style.background-color]="schedule2 == result.id? style : ''">
                     <td>{{i+1}}</td>
-                    <td>{{result.departure}}</td>
-                    <td>{{result.flightNo}}</td>
-                    <td>{{result.arrival}}</td>
+                    <td>{{result.departureTime}}</td>
+                    <td>{{result.flightDetails}}</td>
+                    <td>{{result.arrivalTime}}</td>
                     <td>{{result.price}}</td>
                 </tr>
             </tbody>

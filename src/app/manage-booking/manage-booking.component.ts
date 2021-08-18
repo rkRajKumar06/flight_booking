@@ -1,3 +1,4 @@
+import { DatePipe, formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookingDetails } from '../model/BookingDetails';
@@ -25,7 +26,7 @@ export class ManageBookingComponent implements OnInit {
   }
 
   cancelBooking(obj: BookingDetails){
-    obj.active = 0;
+    obj.cancelled = true;
     this.utilService.cancelBooking(obj).subscribe(date=>{
       this.findAll();
     });
@@ -33,6 +34,17 @@ export class ManageBookingComponent implements OnInit {
 
   viewDetails(obj: BookingDetails){
     this.router.navigate(['/viewBookingDetails/'+obj.id])
+  }
+
+  enableEditOption(departureDate: string){    
+    let today: Date = new Date();
+    let transform: Date = new Date(departureDate);
+    console.log(" today "+today.getDate());
+    console.log(" transform "+transform.getDate());
+    if(transform.getDate() === today.getDate()){
+      return false;
+    }
+    return true;
   }
 
 }

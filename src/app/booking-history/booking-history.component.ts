@@ -17,8 +17,10 @@ export class BookingHistoryComponent implements OnInit {
   }
 
   findAll(){
-    this.utilService.getAllBooking(this.utilService.getLoggedInUser().email).subscribe((data:any) => {
+    this.utilService.getBookingDetailsForHistory(this.utilService.getLoggedInUser().email).subscribe((data:any) => {
       this.bookingDetails = data;
     });
   }
+
+ 
 }

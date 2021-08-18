@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from './model/User';
-import { HttpClient } from "@angular/common/http";
-import { Observable, of } from 'rxjs';
+import { HttpHeaders, HttpClient } from "@angular/common/http";
+import {map} from 'rxjs/operators';
 import { BookingDetails } from './model/BookingDetails';
 import { FlightDetails } from './model/FlightDetails';
 import { Schedule } from './model/Schedule';
 import { Coupons } from './model/Coupons';
 import { Airlines } from './model/Airlines';
+
+export const TOKEN = 'token'
+export const AUTHENTICATED_USER = 'authenticaterUser'
 
 @Injectable({
   providedIn: 'root'
@@ -18,14 +21,49 @@ export class UtilService {
 
   private url: string = "http://localhost:3000/";
 
+  private backendUrl: string = "http://localhost:8989/api";
+
+  
+
+  public getAuthorizationHeader(){
+    let token=sessionStorage.getItem(TOKEN);
+    console.log(" token "+token);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        token: ""+token
+      })
+    };
+    return httpOptions;
+  }
+
   public login(username: string, password: string){
     let result: boolean = false;
     return this.http.get(this.url+"user?name="+username+"&password="+password);
   }
 
+  executeJWTAuthenticationService(username: string, password: string) {
+    
+    return this.http.post<any>(
+      this.backendUrl+`/user/authenticate`,{
+        username,
+        password
+      }).pipe(
+        map(
+          data => {
+            sessionStorage.setItem(AUTHENTICATED_USER, username);
+            sessionStorage.setItem(TOKEN, `Bearer ${data.token}`);
+            sessionStorage.setItem("role", data.role);
+            sessionStorage.setItem("email", data.email);
+            console.log(" test token "+data.token);
+            return data;
+          }
+        )
+      );
+  }
+
   register(user: User) {
     user.role = "user";
-    return this.http.post(this.url+"user", user);
+    return this.http.post(this.backendUrl+"/user/register", user);
   }
 
   getLoggedInUser(): User{
@@ -39,97 +77,143 @@ export class UtilService {
     }
   }
 
-  searchFlights(fromPlace: string, toPlace: string, noOfPassemgers: number){
-    return this.http.get(this.url+"schedule?fromPlace="+fromPlace+"&toPlace="+toPlace+"&isblocked=false");
+  // searchFlights(fromPlace: string, toPlace: string, noOfPassemgers: number){
+  //   return this.http.get(this.url+"schedule?fromPlace="+fromPlace+"&toPlace="+toPlace+"&isblocked=false");
+  // }
+
+  searchFlights(fromPlace: string, toPlace: string, noOfPassemgers: number, departureDate: string, classType: string){
+    console.log(" test console "+departureDate);
+    return this.http.get(this.backendUrl+"/admin/schedule/search?fromPlace="+fromPlace+"&toPlace="+toPlace+"&departureDate="+departureDate+"&seatClass="+classType+"&noOfPassengers="+noOfPassemgers);
   }
+
+  // getAllActiveBooking(email: string){
+  //   return this.http.get(this.url+"bookingDetails?email="+email+"&active=1");
+  // }
 
   getAllActiveBooking(email: string){
-    return this.http.get(this.url+"bookingDetails?email="+email+"&active=1");
+    return this.http.get(this.backendUrl+"/user/bookingDetails/manage/"+email, this.getAuthorizationHeader());
   }
 
-  getAllBooking(email: string){
-    return this.http.get(this.url+"bookingDetails?email="+email);
+  // getAllBooking(email: string){
+  //   return this.http.get(this.url+"bookingDetails?email="+email);
+  // }
+
+  getBookingDetailsForHistory(email: string){
+    return this.http.get(this.backendUrl+"/user/bookingDetails/history/"+email, this.getAuthorizationHeader());
   }
 
   getBookingDetails(id: number){
-    return this.http.get(this.url+"bookingDetails/"+id);
+    return this.http.get(this.backendUrl+"/user/bookingDetails/"+id);
   }
 
   cancelBooking(booking: BookingDetails){
-    return this.http.put(this.url+"bookingDetails/"+booking.id, booking);
+    return this.http.put(this.backendUrl+"/user/bookingDetails/"+booking.id, booking);
   }
 
   addAirlineName(airline: Airlines){
-    return this.http.post(this.url+"airline", airline);
+    return this.http.post(this.backendUrl+"/admin/airlines", airline);
   }
 
   updateAirlineName(airline: Airlines){
-    return this.http.put(this.url+"airline/"+airline.id, airline);
+    return this.http.put(this.backendUrl+"/admin/airlines/"+airline.id, airline);
   }
 
   getAirlineList(){
-    return this.http.get(this.url+"airline");
+    return this.http.get(this.backendUrl+"/admin/airlines");
   }
 
-  addAirlines(airline: FlightDetails){
-    return this.http.post(this.url+"flightDetails", airline);
+  addFlightDetails(airline: FlightDetails){
+    return this.http.post(this.backendUrl+"/admin/flightDetails", airline);
   }
 
-  blockTheAirline(airline: FlightDetails){
-    return this.http.put(this.url+"flightDetails/"+airline.id, airline);
+  // blockTheAirline(airline: FlightDetails){
+  //   return this.http.put(this.url+"/admin/flightDetails/"+airline.id, airline);
+  // }
+
+  getFlightDetails(){
+    return this.http.get(this.backendUrl+"/admin/flightDetails");
   }
 
-  getAirlineByName(name: string){
-    return this.http.get(this.url+"flightDetails?airlines="+name);
+  getFlightDetailsById(id: number){
+    return this.http.get(this.backendUrl+"/admin/flightDetails/"+id);
   }
 
-  getAirlines(){
-    return this.http.get(this.url+"flightDetails");
+  getFlightDetailsBasedOnAirlinesId(id: number){
+    return this.http.get(this.backendUrl+"/admin/flightDetails/list/"+id);
   }
+
+  // getAirlineByName(name: string){
+  //   return this.http.get(this.url+"flightDetails?airlines="+name);
+  // }
+
+  
 
   addSchedule(schedule: Schedule){
-    return this.http.post(this.url+"schedule", schedule);
+    return this.http.post(this.backendUrl+"/admin/schedule", schedule);
   }
 
   updateSchedule(schedule: Schedule){
-    return this.http.put(this.url+"schedule/"+schedule.id, schedule);
+    return this.http.put(this.backendUrl+"/admin/schedule/"+schedule.id, schedule);
   }
 
-  deleteSchedule(id: number){
-    return this.http.delete(this.url+"schedule/"+id);
-  }
+  // deleteSchedule(id: number){
+  //   return this.http.delete(this.url+"schedule/"+id);
+  // }
 
   getSchedule(){
-    return this.http.get(this.url+"schedule");
+    return this.http.get(this.backendUrl+"/admin/schedule");
   }
 
+  // getScheduleById(id: number){
+  //   return this.http.get(this.url+"schedule/"+id);
+  // }
+
   getScheduleById(id: number){
-    return this.http.get(this.url+"schedule/"+id);
+    return this.http.get(this.backendUrl+"/admin/schedule/"+id);
   }
 
   saveBooking(obj: BookingDetails){
-    return this.http.post(this.url+"bookingDetails", obj);
+    return this.http.post(this.backendUrl+"/user/bookingDetails", obj, this.getAuthorizationHeader());
   }
 
   getAllCoupons(){
-    return this.http.get(this.url+"coupons");
+    return this.http.get(this.backendUrl+"/admin/coupons");
   }
 
+  // getAllActiveCoupons(){
+  //   return this.http.get(this.url+"coupons?status=true");
+  // }
+
   getAllActiveCoupons(){
-    return this.http.get(this.url+"coupons?status=true");
+    return this.http.get(this.backendUrl+"/admin/coupons/active");
   }
 
   saveCoupon(obj: Coupons){
-    return this.http.post(this.url+"coupons", obj);
+    return this.http.post(this.backendUrl+"/admin/coupons", obj);
   }
 
   updateCoupon(obj: Coupons){
-    return this.http.put(this.url+"coupons/"+obj.id, obj);
+    return this.http.put(this.backendUrl+"/admin/coupons/"+obj.id, obj);
   }
 
   logout(){
     sessionStorage.setItem("loggedInUser", "");
+    sessionStorage.setItem(AUTHENTICATED_USER, "");
+    sessionStorage.setItem(TOKEN, "");
+    sessionStorage.setItem("role", "");
+    sessionStorage.setItem("email", "");
     this.router.navigate(['login']);
+  }
+
+  getAuthenticatedUser() {
+    return sessionStorage.getItem(AUTHENTICATED_USER);
+  }
+
+  getAuthenticatedToken() {
+    if(this.getAuthenticatedUser()){
+      return sessionStorage.getItem(TOKEN);
+    }
+    return;
   }
 
 }

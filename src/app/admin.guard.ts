@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { UtilService } from './util.service';
 
 @Injectable({
@@ -7,7 +7,7 @@ import { UtilService } from './util.service';
 })
 export class AdminGuard implements CanActivate {
 
-  constructor(private utilService: UtilService){
+  constructor(private utilService: UtilService, private router: Router){
   }
 
   canActivate(
@@ -16,6 +16,7 @@ export class AdminGuard implements CanActivate {
     if(this.utilService.getLoggedInUser().role=="admin"){
         return true;
       }
+    this.router.navigate(["/", "login"]);
     return false;
   }
   

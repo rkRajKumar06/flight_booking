@@ -6,18 +6,18 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label for="airline">Airline Name *</label>
-                <select id="tripType" class="form-control" formControlName="airlineName" (change)="getFlightsbasedOnAirlines(scheduleForm.value.airlineName)">
+                <select id="tripType" class="form-control" formControlName="airlineId" (change)="getFlightsbasedOnAirlines(scheduleForm.value.airlineId)">
                     <option value="">--Select--</option>
-                    <option *ngFor="let airline of airlines">{{airline.name}}</option>
+                    <option *ngFor="let airline of airlines" value="{{airline.id}}">{{airline.name}}</option>
                 </select>
             </div>
         </div>
         <div class="col-md-2">
             <div class="form-group">
                 <label for="flightNo">Flight No *</label>
-                <select id="tripType" class="form-control" formControlName="flightNo">
+                <select id="tripType" class="form-control" formControlName="flightDetails">
                     <option value="">--Select--</option>
-                    <option *ngFor="let flight of flightsList">{{flight}}</option>
+                    <option *ngFor="let flight of flightsList" value="{{flight.id}}">{{flight.flightNo}}</option>
                 </select>
             </div>
         </div>
@@ -53,7 +53,7 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label for="to">Departure Time *</label>
-                <input id="return" class="form-control" type="time" formControlName="departure">
+                <input id="return" class="form-control" type="time" formControlName="departureTime">
             </div>
         </div>
     </div>
@@ -61,7 +61,7 @@
         <div class="col-md-2">
             <div class="form-group">
                 <label for="to">Arrival Time *</label>
-                <input id="return" class="form-control" type="time" formControlName="arrival">
+                <input id="return" class="form-control" type="time" formControlName="arrivalTime">
             </div>
         </div>
         <div class="col-md-2">
@@ -79,17 +79,18 @@
 </form>
 </div>
 <hr>
-<div style="display: flex;padding: 10px;Overflow-y: scroll;height: 300px;">
+<div style="padding: 10px;Overflow-y: scroll;height: 300px;">
     <table class="table table-striped" style="width: 100%;">
         <thead>
             <tr>
                 <th>S.No</th>
+                <th>Airlines</th>
                 <th>Flight No</th>
                 <th>From</th>
                 <th>To</th>
                 <th>Frequency</th>
-                <th>Departure</th>
-                <th>Arrival</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
                 <th>Price</th>
                 <th>Action</th>
             </tr>
@@ -97,15 +98,15 @@
         <tbody>
             <tr *ngFor="let result of scheduleList;let i = index">
                 <td>{{i+1}}</td>
-                <td>{{result.flightNo}}</td>
+                <td>{{getAirlineName(result.airlineId)}}</td>
+                <td>{{getFlightName(result.flightDetails)}}</td> 
                 <td>{{result.fromPlace}}</td>
                 <td>{{result.toPlace}}</td>
                 <td>{{result.day}}</td>
-                <td>{{result.departure}}</td>
-                <td>{{result.arrival}}</td>
+                <td>{{result.departureTime}}</td>
+                <td>{{result.arrivalTime}}</td>
                 <td>{{result.price}}</td>
-                <td><button class="btn" (click)="enableEditOption(result)" style="background-color: green;color: white;">Edit</button>
-                    <button class="btn" (click)="delete(result.id)" style="background-color: red;color: white;">Delete</button>
+                <td><button class="btn" *ngIf="!result.blocked" (click)="enableEditOption(result)" style="background-color: green;color: white;">Edit</button>
                 </td>
             </tr>
         </tbody>

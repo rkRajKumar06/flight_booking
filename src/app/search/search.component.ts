@@ -21,6 +21,7 @@ export class SearchComponent implements OnInit {
   schedule1: number = 0;
   schedule2: number = 0;
   style: string = "lightblue";
+  noOfPassenger: number = 0;
 
   constructor(private utilservice: UtilService, private router: Router) {
     this.searchForm = new FormGroup({
@@ -28,20 +29,45 @@ export class SearchComponent implements OnInit {
       fromPlace: new FormControl("", Validators.required),
       toPlace: new FormControl("", Validators.required),
       departureDate: new FormControl("", Validators.required),
-      returnDate: new FormControl(""),
-      noOfPassenger: new FormControl("", Validators.required)
+      returnDate: new FormControl("", Validators.required),
+      noOfPassenger: new FormControl("", Validators.required),
+      classType: new FormControl("", Validators.required)
     });
   }
 
   ngOnInit(): void {
   }
 
+  // searchFlights(){
+  //   console.log("Test - 1"+this.searchForm.valid);
+  //   this.tripType = this.searchForm.get('tripType')?.value;
+  //   console.log(" type "+this.tripType);
+  //   if(this.searchForm.valid){
+  //     this.utilservice.searchFlights(this.searchForm.get('fromPlace')?.value,this.searchForm.get('toPlace')?.value, this.searchForm.get('noOfPassenger')?.value).subscribe(
+  //       (data: any) => {
+  //         console.log("search list-"+data);
+  //         this.oneWayList = data;
+  //         this.displayTable = true;
+  //       }
+  //     );
+  //     if(this.tripType==="round"){
+  //       this.utilservice.searchFlights(this.searchForm.get('toPlace')?.value,this.searchForm.get('fromPlace')?.value, this.searchForm.get('noOfPassenger')?.value).subscribe(
+  //         (data: any) => {
+  //           console.log("search list-"+data);
+  //           this.roundList = data;
+  //         }
+  //       );
+  //     }
+  //   }
+  // }
+
   searchFlights(){
     console.log("Test - 1"+this.searchForm.valid);
     this.tripType = this.searchForm.get('tripType')?.value;
+    this.noOfPassenger = this.searchForm.get('noOfPassenger')?.value;
     console.log(" type "+this.tripType);
     if(this.searchForm.valid){
-      this.utilservice.searchFlights(this.searchForm.get('fromPlace')?.value,this.searchForm.get('toPlace')?.value, this.searchForm.get('noOfPassenger')?.value).subscribe(
+      this.utilservice.searchFlights(this.searchForm.get('fromPlace')?.value,this.searchForm.get('toPlace')?.value, this.searchForm.get('noOfPassenger')?.value, this.searchForm.get('departureDate')?.value, this.searchForm.get('classType')?.value).subscribe(
         (data: any) => {
           console.log("search list-"+data);
           this.oneWayList = data;
@@ -49,7 +75,7 @@ export class SearchComponent implements OnInit {
         }
       );
       if(this.tripType==="round"){
-        this.utilservice.searchFlights(this.searchForm.get('toPlace')?.value,this.searchForm.get('fromPlace')?.value, this.searchForm.get('noOfPassenger')?.value).subscribe(
+        this.utilservice.searchFlights(this.searchForm.get('toPlace')?.value,this.searchForm.get('fromPlace')?.value, this.searchForm.get('noOfPassenger')?.value, this.searchForm.get('returnDate')?.value, this.searchForm.get('classType')?.value).subscribe(
           (data: any) => {
             console.log("search list-"+data);
             this.roundList = data;
@@ -63,7 +89,9 @@ export class SearchComponent implements OnInit {
     if(tripType === 'oneway'){
       this.searchForm.controls['returnDate'].setValue("");
       this.searchForm.controls['returnDate'].disable();
+      this.searchForm.get("returnDate")?.clearAsyncValidators();
     }else{
+      this.searchForm.get("returnDate")?.setValidators([Validators.required]);
       this.searchForm.controls['returnDate'].enable();
     }
   }
@@ -79,7 +107,7 @@ export class SearchComponent implements OnInit {
 
   bookTicket(){
     console.log(this.schedule1);
-    this.router.navigate(['/ticketBooking/'+this.schedule1, {id2: this.schedule2}]);
+    this.router.navigate(['/ticketBooking/'+this.schedule1, {id2: this.schedule2, passenger: this.noOfPassenger}]);
     localStorage.setItem("departureDate", this.searchForm.get('departureDate')?.value);
     localStorage.setItem("returnDate", this.searchForm.get('returnDate')?.value);
   }

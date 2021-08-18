@@ -1,6 +1,6 @@
 export class Coupons {
     id: number = 0;
-    coupon: string = "";
+    name: string = "";
     percentage: number = 0;
-    status: boolean = true;
+    inactive: boolean = false;
 }

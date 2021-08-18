@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div class="container">
     <h2 class="text-center">Manage Airlines</h2>
-    <form [formGroup]="airlinesForm" (ngSubmit)="addAirline()">
+    <form [formGroup]="airlinesForm" (ngSubmit)="addFlightDetails()">
         <div class="row">
             <div class="col-md-2"></div>
             <div class="col-md-2">
@@ -13,7 +13,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <input class="btn" [disabled]="!newairline.value"
-                        style="background-color: green;color: white;margin-top: 22px;" type="button" (click)="saveAirLine(newairline.value)" value="Add">
+                        style="background-color: green;color: white;margin-top: 22px;" type="button" (click)="saveAirLine(newairline)" value="Add">
                 </div>
             </div>
         </div>
@@ -24,7 +24,7 @@
                     <label for="airline">Airline Name *</label>
                     <select id="airline" class="form-control" formControlName="airlines">
                         <option value="">--Select--</option>
-                        <option *ngFor="let obj of airlinesNames" value="{{obj.name}}">{{obj.name}}</option>
+                        <option *ngFor="let obj of airlinesNames" value="{{obj.id}}">{{obj.name}}</option>
                     </select>
                     <!-- <input id="airline" class="form-control" type="text" formControlName="airlines"> -->
                 </div>
@@ -37,8 +37,14 @@
             </div>
             <div class="col-md-2">
                 <div class="form-group">
-                    <label for="seats">Seats *</label>
-                    <input id="seats" class="form-control" type="text" formControlName="noOfSeats">
+                    <label for="businessClassSeats">Business Class Seats *</label>
+                    <input id="businessClassSeats" class="form-control" type="text" formControlName="businessClassSeats">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label for="economyClassSeats">Economy Class Seats *</label>
+                    <input id="economyClassSeats" class="form-control" type="text" formControlName="economyClassSeats">
                 </div>
             </div>
             <div class="col-md-2">
@@ -53,7 +59,7 @@
 <hr>
 <div class="container"
     style="display: flex;padding: 10px;justify-content: space-evenly;Overflow-y: scroll;height: 300px;">
-    <div style="width: 45%;">
+    <div style="width: 30%;">
         <table class="table table-striped" style="width: 100%;">
             <thead>
                 <tr>
@@ -66,34 +72,36 @@
                 <tr *ngFor="let result of airlinesNames;let i = index">
                     <td>{{i+1}}</td>
                     <td>{{result.name}}</td>
-                    <td><button *ngIf="result.status === true" class="btn" style="background-color: red;color: white;"
+                    <td><button *ngIf="result.blocked === false" class="btn" style="background-color: red;color: white;"
                             (click)="updateAirlineStatus(result,true)">Block</button>
-                        <button *ngIf="result.status === false" class="btn" style="background-color: green;color: white;"
+                        <button *ngIf="result.blocked === true" class="btn" style="background-color: green;color: white;"
                             (click)="updateAirlineStatus(result,false)">Enable</button>
                         </td>
                 </tr>
             </tbody>
         </table>
     </div>
-    <div style="width: 45%;">
+    <div style="width: 60%;">
         <table class="table table-striped" style="width: 100%;">
             <thead>
                 <tr>
                     <th>S.No</th>
                     <th>Airlines</th>
                     <th>Flight No</th>
-                    <th>No of Seats</th>
+                    <th>Business Class Seats</th>
+                    <th>Economy Class Seats</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let result of airlinesList;let i = index">
+                <tr *ngFor="let result of flightDetailsList;let i = index">
                     <td>{{i+1}}</td>
-                    <td>{{result.airlines}}</td>
+                    <td>{{getAirlineName(result.airlines)}}</td>
                     <td>{{result.flightNo}}</td>
-                    <td>{{result.noOfSeats}}</td>
-                    <td><p *ngIf="result.blocked === 0" style="color: green;font-weight: bold;">Active</p>
-                        <p *ngIf="result.blocked === 1" style="color: red;font-weight: bold;">Blocked</p></td>
+                    <td>{{result.businessClassSeats}}</td>
+                    <td>{{result.economyClassSeats}}</td>
+                    <td><p *ngIf="result.blocked === false" style="color: green;font-weight: bold;">Active</p>
+                        <p *ngIf="result.blocked === true" style="color: red;font-weight: bold;">Blocked</p></td>
                 </tr>
             </tbody>
         </table>

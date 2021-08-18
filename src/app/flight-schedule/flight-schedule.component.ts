@@ -17,17 +17,18 @@ export class FlightScheduleComponent implements OnInit {
   scheduleList: Schedule[] = [];
   scheduleForm: FormGroup;
   airlines: Airlines[] = [];
-  flightsList: string[] = [];
+  flightsList: FlightDetails[] = [];
+  private allFlightsList: FlightDetails[] = [];
   private editId: number=0;
   constructor(private utilService: UtilService) {
     this.scheduleForm = new FormGroup({
-      airlineName:  new FormControl('', Validators.required),
-      flightNo: new FormControl('', Validators.required),
+      airlineId:  new FormControl('', Validators.required),
+      flightDetails: new FormControl('', Validators.required),
       fromPlace: new FormControl('', Validators.required),
       toPlace: new FormControl('', Validators.required),
       day: new FormControl('', Validators.required),
-      departure: new FormControl('', Validators.required),
-      arrival: new FormControl('', Validators.required),
+      departureTime: new FormControl('', Validators.required),
+      arrivalTime: new FormControl('', Validators.required),
       price: new FormControl('', Validators.required)
     });
   }
@@ -35,6 +36,10 @@ export class FlightScheduleComponent implements OnInit {
   saveSchedule(){
     let obj: Schedule = new Schedule();
     obj = this.scheduleForm.value;
+    let flightObj = this.flightsList.filter((value) => {return value.id == obj.flightDetails})[0];
+    obj.availableBusinessClassSeats = flightObj.businessClassSeats;
+    obj.availableEconomyClassSeats = flightObj.economyClassSeats;
+    console.log(" edit id-"+this.editId);
     if(this.editId>0){
       obj.id = this.editId;
       this.updateSchedule();
@@ -50,6 +55,7 @@ export class FlightScheduleComponent implements OnInit {
   ngOnInit(): void {
     this.getAllSchedule();
     this.getAllAirlines();
+    this.getAllFlightDetails();
   }
 
   getAllSchedule(){
@@ -61,7 +67,30 @@ export class FlightScheduleComponent implements OnInit {
   getAllAirlines(){
     this.utilService.getAirlineList().subscribe((data:any) => {
       this.airlines = data;
+      console.log(" air list-- "+this.airlines.length);
+      this.airlines = this.airlines.filter((value) =>{ return value.blocked == false});
     });
+  }
+
+  getAllFlightDetails(){
+    this.utilService.getFlightDetails().subscribe((data:any) => {
+      this.allFlightsList = data;
+    });
+  }
+
+  getFlightName(id:number){
+    console.log(" name id "+id);
+    if(this.allFlightsList.length>0){
+      return this.allFlightsList.filter(data => {return data.id == id})[0].flightNo;
+    }
+    return "";
+  }
+
+  getAirlineName(id: number){
+    if(this.airlines.length>0){
+      return this.airlines.filter(data => {return data.id == id})[0].name;
+    }
+    return "";
   }
 
   // getAllAirlines(){
@@ -78,43 +107,51 @@ export class FlightScheduleComponent implements OnInit {
   //   });
   // }
 
-  getFlightsbasedOnAirlines(airlineName: string){
-    this.utilService.getAirlineByName(airlineName).subscribe((data:any)=>{
-      let array: FlightDetails[] = data;
-      array.forEach(data=>{
-        this.flightsList.push(data.flightNo);
-      });
+  getFlightsbasedOnAirlines(id: number){
+    this.utilService.getFlightDetailsBasedOnAirlinesId(id).subscribe((data:any)=>{
+      this.flightsList = data;
+      this.flightsList = this.flightsList.filter(data => {return !data.blocked});
+      // array.forEach(data=>{
+      //   this.flightsList.push(data.flightNo);
+      // });
     });
   }
 
   enableEditOption(obj: Schedule){
     this.editId = obj.id;
-    this.getFlightsbasedOnAirlines(obj.airlineName);
-    this.scheduleForm.setValue({
-      airlineName: obj.airlineName,
-      flightNo: obj.flightNo,
-      fromPlace: obj.fromPlace,
-      toPlace: obj.toPlace,
-      day: obj.day,
-      departure: obj.departure,
-      arrival: obj.arrival,
-      price: obj.price
+    
+    console.log(" print edit id "+obj.id);
+    this.utilService.getFlightDetailsById(obj.flightDetails).subscribe((data:any)=>{
+      let flightObj: FlightDetails = data;
+      this.getFlightsbasedOnAirlines(flightObj.airlines);
+      console.log(" in side get "+flightObj.airlines);
+      this.scheduleForm.setValue({
+        airlineId: flightObj.airlines,
+        flightDetails: obj.flightDetails,
+        fromPlace: obj.fromPlace,
+        toPlace: obj.toPlace,
+        day: obj.day,
+        departureTime: obj.departureTime,
+        arrivalTime: obj.arrivalTime,
+        price: obj.price
+      });
     });
   }
 
   updateSchedule(){
     let obj: Schedule = new Schedule();
     obj = this.scheduleForm.value;
+    obj.id = this.editId;
     this.utilService.updateSchedule(obj).subscribe(data=>{
       this.getAllSchedule();
       this.scheduleForm.reset();
     });
   }
 
-  delete(id: number){
-    this.utilService.deleteSchedule(id).subscribe(data=>{
-      this.getAllSchedule();
-    });
-  }
+  // delete(id: number){
+  //   this.utilService.deleteSchedule(id).subscribe(data=>{
+  //     this.getAllSchedule();
+  //   });
+  // }
 
 }
