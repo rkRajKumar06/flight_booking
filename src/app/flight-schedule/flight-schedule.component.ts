@@ -17,6 +17,7 @@ export class FlightScheduleComponent implements OnInit {
   scheduleList: Schedule[] = [];
   scheduleForm: FormGroup;
   airlines: Airlines[] = [];
+  allAirlines: Airlines[] = [];
   flightsList: FlightDetails[] = [];
   private allFlightsList: FlightDetails[] = [];
   private editId: number=0;
@@ -39,6 +40,7 @@ export class FlightScheduleComponent implements OnInit {
     let flightObj = this.flightsList.filter((value) => {return value.id == obj.flightDetails})[0];
     obj.availableBusinessClassSeats = flightObj.businessClassSeats;
     obj.availableEconomyClassSeats = flightObj.economyClassSeats;
+    obj.airlineId = flightObj.airlines;
     console.log(" edit id-"+this.editId);
     if(this.editId>0){
       obj.id = this.editId;
@@ -67,7 +69,7 @@ export class FlightScheduleComponent implements OnInit {
   getAllAirlines(){
     this.utilService.getAirlineList().subscribe((data:any) => {
       this.airlines = data;
-      console.log(" air list-- "+this.airlines.length);
+      this.allAirlines = data;
       this.airlines = this.airlines.filter((value) =>{ return value.blocked == false});
     });
   }
@@ -79,7 +81,6 @@ export class FlightScheduleComponent implements OnInit {
   }
 
   getFlightName(id:number){
-    console.log(" name id "+id);
     if(this.allFlightsList.length>0){
       return this.allFlightsList.filter(data => {return data.id == id})[0].flightNo;
     }
@@ -87,8 +88,9 @@ export class FlightScheduleComponent implements OnInit {
   }
 
   getAirlineName(id: number){
-    if(this.airlines.length>0){
-      return this.airlines.filter(data => {return data.id == id})[0].name;
+    if(this.allAirlines.length>0){
+       let array = this.allAirlines.filter(data => {return data.id == id});
+       return array.length>0? array[0].name : "";
     }
     return "";
   }

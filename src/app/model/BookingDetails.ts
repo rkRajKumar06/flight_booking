@@ -18,6 +18,9 @@ export class BookingDetails{
     passengerList: Passenger[]=[];
     flightDetails1: number = 0;
     flightDetails2: number = 0;
+    flightSchedule1: number = 0;
+    flightSchedule2: number = 0;
     couponId: number = 0;
+    seatClass: string = "";
     //schedule related fields
 }

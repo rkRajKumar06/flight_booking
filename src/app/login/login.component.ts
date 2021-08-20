@@ -41,25 +41,15 @@ export class LoginComponent implements OnInit {
     console.log(this.myForm.value);
     this.isValid = true;
     this.utilService.executeJWTAuthenticationService(this.myForm.get("username")?.value,this.myForm.get("password")?.value).subscribe((data)=>{
-      let userObj: User = new User();
-      userObj.name = this.myForm.get("username")?.value;
-      let email = sessionStorage.getItem("email");;
-      let role = sessionStorage.getItem("role");
-      if(email!==null && role!==null){
-        userObj.email = email;
-        userObj.role = role;
-      }
-      console.log("test login with jwt");
-        sessionStorage.setItem("loggedInUser", JSON.stringify(userObj));
-        this.router.navigate(["/", "header"]);
+      this.router.navigate(["/", "header"]);
               
     }, (err)=>{
       this.utilService.loggedInUser = new User();
       sessionStorage.setItem("loggedInUser", JSON.stringify(new User()));
       sessionStorage.setItem(AUTHENTICATED_USER, "");
       sessionStorage.setItem(TOKEN, "");
-      sessionStorage.setItem("role", "");
-      sessionStorage.setItem("email", "");
+      //sessionStorage.setItem("role", "");
+      //sessionStorage.setItem("email", "");
       this.isValid = false;
       this.router.navigate(["/", "login"]);
     });

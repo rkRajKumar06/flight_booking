@@ -1,6 +1,7 @@
 import { DatePipe, formatDate } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BookingService } from '../booking.service';
 import { BookingDetails } from '../model/BookingDetails';
 import { UtilService } from '../util.service';
 
@@ -12,7 +13,7 @@ import { UtilService } from '../util.service';
 export class ManageBookingComponent implements OnInit {
 
   bookingDetails: BookingDetails[]=[];
-  constructor(private utilService: UtilService,private router: Router) { }
+  constructor(private utilService: UtilService,private router: Router, private bookService: BookingService) { }
 
   ngOnInit(): void {
     this.findAll();
@@ -32,11 +33,15 @@ export class ManageBookingComponent implements OnInit {
     });
   }
 
+  getFlightName(id: number){
+    return this.bookService.getFlightName(id);
+  }
+
   viewDetails(obj: BookingDetails){
     this.router.navigate(['/viewBookingDetails/'+obj.id])
   }
 
-  enableEditOption(departureDate: string){    
+  enableCancelOption(departureDate: string){    
     let today: Date = new Date();
     let transform: Date = new Date(departureDate);
     console.log(" today "+today.getDate());

@@ -78,8 +78,9 @@
             <thead>
                 <tr>
                     <th>S.No</th>
+                    <th>Airlines</th>
+                    <th>Flight No</th>
                     <th>Departure</th>
-                    <th>Duration</th>
                     <th>Arrival</th>
                     <th>Price</th>
                 </tr>
@@ -87,8 +88,9 @@
             <tbody>
                 <tr *ngFor="let result of oneWayList;let i = index" (click)="selectRowIdForTable1(result.id)" [style.background-color]="schedule1 == result.id? style : ''">
                     <td>{{i+1}}</td>
+                    <td>{{getAirlineName(result.airlineId)}}</td>
+                    <td>{{getFlightName(result.flightDetails)}}</td>
                     <td>{{result.departureTime}}</td>
-                    <td>{{result.flightDetails}}</td>
                     <td>{{result.arrivalTime}}</td>
                     <td>{{result.price}}</td>
                 </tr>
@@ -101,8 +103,9 @@
             <thead>
                 <tr>
                     <th>S.No</th>
+                    <th>Airlines</th>
+                    <th>Flight No</th>
                     <th>Departure</th>
-                    <th>Duration</th>
                     <th>Arrival</th>
                     <th>Price</th>
                 </tr>
@@ -110,8 +113,9 @@
             <tbody>
                 <tr *ngFor="let result of roundList;let i = index" (click)="selectRowIdForTable2(result.id)" [style.background-color]="schedule2 == result.id? style : ''">
                     <td>{{i+1}}</td>
+                    <td>{{getAirlineName(result.airlineId)}}</td>
+                    <td>{{getFlightName(result.flightDetails)}}</td>
                     <td>{{result.departureTime}}</td>
-                    <td>{{result.flightDetails}}</td>
                     <td>{{result.arrivalTime}}</td>
                     <td>{{result.price}}</td>
                 </tr>

@@ -21,15 +21,17 @@
         <tr *ngFor="let result of bookingDetails;let i = index">
             <td>{{i+1}}</td>
             <td>{{result.pnr}}</td>
-            <td>{{result.flightDetails1}}</td>
+            <td>{{getFlightName(result.flightDetails1)}}</td>
             <td>{{result.fromPlace}}</td>
             <td>{{result.toPlace}}</td>
             <td>{{result.departureDate}}</td>
             <td>{{result.returnDate}}</td>
             <td>{{result.noOfPersons}}</td>
             <td>{{result.amount}}</td>
-            <td><button class="btn" *ngIf="enableEditOption(result.departureDate)" style="background-color: green;color: white;" (click)="viewDetails(result)">View</button>
-                <button class="btn" style="background-color: red;color: white;" (click)="cancelBooking(result)">Cancel</button></td>
+            <td><button class="btn" style="background-color: green;color: white;" (click)="viewDetails(result)">View</button>
+                <button class="btn" *ngIf="enableCancelOption(result.departureDate) && !result.cancelled" style="background-color: red;color: white;" (click)="cancelBooking(result)">Cancel</button>
+                <label style="color: red;" *ngIf="result.cancelled">Cancelled</label>
+            </td>
         </tr>
     </tbody>
 </table>

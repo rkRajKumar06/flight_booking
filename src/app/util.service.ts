@@ -8,6 +8,7 @@ import { FlightDetails } from './model/FlightDetails';
 import { Schedule } from './model/Schedule';
 import { Coupons } from './model/Coupons';
 import { Airlines } from './model/Airlines';
+import jwt_decode from 'jwt-decode';
 
 export const TOKEN = 'token'
 export const AUTHENTICATED_USER = 'authenticaterUser'
@@ -52,8 +53,18 @@ export class UtilService {
           data => {
             sessionStorage.setItem(AUTHENTICATED_USER, username);
             sessionStorage.setItem(TOKEN, `Bearer ${data.token}`);
-            sessionStorage.setItem("role", data.role);
-            sessionStorage.setItem("email", data.email);
+            var decoded: JSON = jwt_decode(data.token);
+            let user: User = new User();
+            user = jwt_decode(data.token);
+            sessionStorage.setItem("loggedInUser", JSON.stringify(user));
+
+
+            console.log(" decoded jwt--"+JSON.stringify(decoded));
+            console.log(" decoded jwt role--"+user.name);
+            console.log(" decoded jwt role--"+user.role);
+            console.log(" decoded jwt role--"+user.email);
+            // sessionStorage.setItem("role", data.role);
+            // sessionStorage.setItem("email", data.email);
             console.log(" test token "+data.token);
             return data;
           }
@@ -103,11 +114,11 @@ export class UtilService {
   }
 
   getBookingDetails(id: number){
-    return this.http.get(this.backendUrl+"/user/bookingDetails/"+id);
+    return this.http.get(this.backendUrl+"/user/bookingDetails/"+id, this.getAuthorizationHeader());
   }
 
   cancelBooking(booking: BookingDetails){
-    return this.http.put(this.backendUrl+"/user/bookingDetails/"+booking.id, booking);
+    return this.http.put(this.backendUrl+"/user/bookingDetails/cancel/"+booking.id, booking, this.getAuthorizationHeader());
   }
 
   addAirlineName(airline: Airlines){
@@ -200,8 +211,8 @@ export class UtilService {
     sessionStorage.setItem("loggedInUser", "");
     sessionStorage.setItem(AUTHENTICATED_USER, "");
     sessionStorage.setItem(TOKEN, "");
-    sessionStorage.setItem("role", "");
-    sessionStorage.setItem("email", "");
+    // sessionStorage.setItem("role", "");
+    // sessionStorage.setItem("email", "");
     this.router.navigate(['login']);
   }
 

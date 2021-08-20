@@ -20,7 +20,7 @@
             <tr *ngFor="let result of bookingDetails;let i = index">
                 <td>{{i+1}}</td>
                 <td>{{result.pnr}}</td>
-                <td>{{result.flightDetails1}}</td>
+                <td>{{getFlightName(result.flightDetails1)}}</td>
                 <td>{{result.fromPlace}}</td>
                 <td>{{result.toPlace}}</td>
                 <td>{{result.departureDate}}</td>

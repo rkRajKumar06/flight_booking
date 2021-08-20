@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BookingService } from '../booking.service';
 import { BookingDetails } from '../model/BookingDetails';
 import { UtilService } from '../util.service';
 
@@ -12,7 +13,7 @@ import { UtilService } from '../util.service';
 export class ViewBookingComponent implements OnInit {
 
   viewObj: BookingDetails = new BookingDetails();
-  constructor(private utilservice: UtilService, private routes: ActivatedRoute) {
+  constructor(private utilservice: UtilService, private routes: ActivatedRoute, private bookService: BookingService) {
     this.routes.params.subscribe((pathvariables)=>{
       let num: number = pathvariables.id;
       this.getBookingDetails(num);
@@ -20,6 +21,10 @@ export class ViewBookingComponent implements OnInit {
    }
 
   ngOnInit(): void {
+  }
+
+  getFlightName(id: number){
+    return this.bookService.getFlightName(id);
   }
 
   getBookingDetails(id: number){
@@ -39,6 +44,7 @@ export class ViewBookingComponent implements OnInit {
       WindowPrt.close();    
     }
   }
+
 
 
 }

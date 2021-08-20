@@ -91,6 +91,8 @@
                 <th>Frequency</th>
                 <th>Departure Time</th>
                 <th>Arrival Time</th>
+                <th>No of Business Class</th>
+                <th>No of Economy Class</th>
                 <th>Price</th>
                 <th>Action</th>
             </tr>
@@ -105,6 +107,8 @@
                 <td>{{result.day}}</td>
                 <td>{{result.departureTime}}</td>
                 <td>{{result.arrivalTime}}</td>
+                <td>{{result.availableBusinessClassSeats}}</td>
+                <td>{{result.availableEconomyClassSeats}}</td>
                 <td>{{result.price}}</td>
                 <td><button class="btn" *ngIf="!result.blocked" (click)="enableEditOption(result)" style="background-color: green;color: white;">Edit</button>
                 </td>

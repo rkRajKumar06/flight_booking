@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PLACES } from '../app.component';
+import { BookingService } from '../booking.service';
+import { Airlines } from '../model/Airlines';
 import { Schedule } from '../model/Schedule';
 import { UtilService } from '../util.service';
 
@@ -22,8 +24,9 @@ export class SearchComponent implements OnInit {
   schedule2: number = 0;
   style: string = "lightblue";
   noOfPassenger: number = 0;
+  airlines: Airlines[] = [];
 
-  constructor(private utilservice: UtilService, private router: Router) {
+  constructor(private utilservice: UtilService, private router: Router, private bookingService: BookingService) {
     this.searchForm = new FormGroup({
       tripType: new FormControl("", Validators.required),
       fromPlace: new FormControl("", Validators.required),
@@ -33,11 +36,25 @@ export class SearchComponent implements OnInit {
       noOfPassenger: new FormControl("", Validators.required),
       classType: new FormControl("", Validators.required)
     });
+    bookingService.getFlightList();
   }
 
   ngOnInit(): void {
+    this.getAllAirlines();
   }
 
+  getAllAirlines(){
+    this.utilservice.getAirlineList().subscribe((data:any) => {
+      this.airlines = data;
+    });
+  }
+
+  getAirlineName(id: number){
+    if(this.airlines.length>0 && id!==0){
+      return this.airlines.filter(data => {return data.id == id})[0].name;
+    }
+    return "";
+  }
   // searchFlights(){
   //   console.log("Test - 1"+this.searchForm.valid);
   //   this.tripType = this.searchForm.get('tripType')?.value;
@@ -85,6 +102,11 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  getFlightName(id: number){
+    console.log("  test flight id ------- "+id);
+    return this.bookingService.getFlightName(id);
+  }
+
   resetReturnDate(tripType: string){
     if(tripType === 'oneway'){
       this.searchForm.controls['returnDate'].setValue("");
@@ -110,6 +132,7 @@ export class SearchComponent implements OnInit {
     this.router.navigate(['/ticketBooking/'+this.schedule1, {id2: this.schedule2, passenger: this.noOfPassenger}]);
     localStorage.setItem("departureDate", this.searchForm.get('departureDate')?.value);
     localStorage.setItem("returnDate", this.searchForm.get('returnDate')?.value);
+    localStorage.setItem("classType", this.searchForm.get('classType')?.value);
   }
 
   cancelBookingSelection(){
