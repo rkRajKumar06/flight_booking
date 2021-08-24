@@ -119,7 +119,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="to">No of Person(s)</label>
-                        <input id="return" class="form-control" [value]="passengerList?.length" type="number" disabled="true">
+                        <input id="return" class="form-control" [value]="pasenger" type="number" disabled="true">
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -155,7 +155,7 @@
             <div class="form-group">
                 <input class="btn" style="background-color: red;color: white;margin-top: 22px;" type="button"
                     value="Cancel" (click)="cancel()">
-                <input [disabled]="!passengerList?.length" class="btn"
+                <input [disabled]="!enableSubmitButton" class="btn"
                     style="background-color: blue;color: white;margin-top: 22px;" type="button" value="Submit"
                     (click)="bookTicket()">
             </div>

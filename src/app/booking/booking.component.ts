@@ -30,6 +30,7 @@ export class BookingComponent implements OnInit {
   passengerList: Passenger[] = [];
   passengerObj: Passenger = new Passenger();
   ticketClass: string = "";
+  enableSubmitButton: boolean = false;
   //private allFlightsList: FlightDetails[] = [];
 
   constructor(private utilService: UtilService, private router: Router,private routes: ActivatedRoute, private bookService: BookingService) { 
@@ -41,6 +42,7 @@ export class BookingComponent implements OnInit {
       console.log("test id 1-"+this.id1+" test id2-"+this.id2+" passenger "+this.pasenger);
       this.getScheduleById();
       this.getActiveCoupons();
+      this.checkRequiredPassengerAddition();
     });
     let classType = localStorage.getItem("classType");
     this.ticketClass = classType!==null? classType : "";
@@ -60,10 +62,8 @@ export class BookingComponent implements OnInit {
   }
 
   calculateTotalPrice(){
-    let tripTypeVariable = this.id2>0 ? 2 : 1;
-    let noOfPersons = this.passengerList.length;
-    console.log(" type-"+tripTypeVariable+" passenger size-"+ this.passengerList.length);
-    if(noOfPersons>0){
+    let noOfPersons = this.pasenger;
+    if(noOfPersons>0 && this.scheduleDetailList1.length > 0){
       console.log(" price "+this.scheduleDetailList1[0].price);
       let fare: number = +this.scheduleDetailList1[0].price;
       console.log(" fare 1 "+fare);
@@ -71,7 +71,7 @@ export class BookingComponent implements OnInit {
         fare = fare + (+this.scheduleDetailList2[0].price);
         console.log(" fare 2 "+fare);
       } 
-      this.totalAmount = (fare*noOfPersons)*tripTypeVariable;
+      this.totalAmount = fare*noOfPersons;
       console.log(" fare 3 "+this.totalAmount);
     }
     this.finalPrice = this.totalAmount;
@@ -114,11 +114,13 @@ export class BookingComponent implements OnInit {
     if(this.id1>0){
       this.utilService.getScheduleById(this.id1).subscribe((data:any)=>{
         this.scheduleDetailList1.push(data);
+        this.calculateTotalPrice();
       });
     } 
     if(this.id2>0){
       this.utilService.getScheduleById(this.id2).subscribe((data:any)=>{
         this.scheduleDetailList2.push(data);
+        this.calculateTotalPrice();
       });
     }
   }
@@ -182,8 +184,9 @@ export class BookingComponent implements OnInit {
     if(this.passengerList.length==0 || this.passengerList.length<this.pasenger){
       this.passengerList.push(this.passengerObj);
       this.passengerObj = new Passenger();
-      this.calculateTotalPrice();
-      this.calculateDiscountedPrice(this.discountPercentage);
+      //this.calculateTotalPrice();
+      //this.calculateDiscountedPrice(this.discountPercentage);
+      this.checkRequiredPassengerAddition();
     }
   }
 
@@ -194,11 +197,21 @@ export class BookingComponent implements OnInit {
     return true;
   }
 
+  checkRequiredPassengerAddition(){
+    console.log(" array lenght "+this.passengerList.length+"  pasenger "+this.pasenger);
+    if(this.passengerList.length == this.pasenger){
+      this.enableSubmitButton = true;
+    }else{
+      this.enableSubmitButton = false;
+    }
+    console.log(" test index "+this.enableSubmitButton);
+  }
+
   removePassenger(index: number){
     console.log(" start lenght "+this.passengerList.length);
-    console.log(" indxt "+index);
     this.passengerList.splice(index, 1);
     console.log(" end lenght "+this.passengerList.length);
+    this.checkRequiredPassengerAddition();
   }
 
 }
