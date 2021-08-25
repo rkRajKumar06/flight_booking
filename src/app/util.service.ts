@@ -24,6 +24,7 @@ export class UtilService {
 
   private backendUrl: string = "http://localhost:8989/api";
 
+  //private backendUrl: string = "http://18.220.121.31:8989/api";
   
 
   public getAuthorizationHeader(){
@@ -37,10 +38,10 @@ export class UtilService {
     return httpOptions;
   }
 
-  public login(username: string, password: string){
-    let result: boolean = false;
-    return this.http.get(this.url+"user?name="+username+"&password="+password);
-  }
+  // public login(username: string, password: string){
+  //   let result: boolean = false;
+  //   return this.http.get(this.url+"user?name="+username+"&password="+password);
+  // }
 
   executeJWTAuthenticationService(username: string, password: string) {
     
